@@ -1,0 +1,318 @@
+<div class="row">
+	<div class="col-lg-12">
+		<div class="hpanel">
+			<div class="panel-body">
+
+				<div class="schedule-wapper">
+					<div class="schedule-team-header">
+						<div class="row">
+							<div class="col-md-3 schedule-heading">
+								<h2>team <span>schedule</span> </h2>								
+							</div>
+							<div class="col-md-9">
+								<ul class="team-member-list list-unstyle list-inline">
+									<li class="bg-1">
+										<img src="images/profile.jpg" class="team-mem-img" />
+										<span><input type="checkbox" /></span>
+									</li>
+									<li class="bg-2">
+										<img src="images/profile.jpg" class="team-mem-img" />
+										<span><input type="checkbox" /></span>
+									</li>
+									<li class="bg-3">
+										<img src="images/profile.jpg" class="team-mem-img" />
+										<span><input type="checkbox" /></span>
+									</li>
+									<li class="bg-4">
+										<img src="images/profile.jpg" class="team-mem-img" />
+										<span><input type="checkbox" /></span>
+									</li>
+									<li class="bg-5">
+										<img src="images/profile.jpg" class="team-mem-img" />
+										<span><input type="checkbox" /></span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="schedule-table-header clearfix">
+						<div class="row">
+							<div class="col-sm-9">
+								<ul class="list-unstyle list-inline m-0 schedule-actions">
+									<li ng-click="individual_actions('today')"><a class="f16">Today</a></li>
+									<li ng-click="individual_actions('prev')"><a ><i class="fa fa-step-backward"></i></a></li>
+									<li ng-click="individual_actions('next')"><a ><i class="fa fa-step-forward"></i></a></li>
+									<li class="dateandtime">
+										<a>
+										<div class="input-group date col-md-12" id="schedulerDate">
+											<input type="text" class="form-control" uib-datepicker-popup="{{format}}" placeholder="{{format}}" name="WorkPassDateApp" id="strDate"
+												 show-weeks="false" min-date="minDate" ng-model="schedulerDate" show-button-bar="false" is-open="schedulerDateOpen" datepicker-options="dateOptions" close-text="Close" data-validationtype="date" data-format="{{format}}" ng-readonly="true" ng-change="load_sheads(view_type)"/>
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-default h-34" ng-click="open($event,'schedulerDateOpen')" ng-disabled="vm.diasablestate"><i class="glyphicon glyphicon-calendar"></i></button>
+											</span>
+                           				 </div>
+										</a>
+									</li>
+									<li>
+										<div class="btn-group btn-toggle">
+											<button class="btn btn-sm btn-default">Logging</button>
+											<button class="btn btn-sm btn-success active">Schedule</button>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="col-sm-3">
+								<ul class="nav nav-tabs schedule-tabs text-right">
+									<li ng-class="{'active':view_type=='week_view'}" ng-click="view_type='week_view';load_sheads(view_type)"><a>Week</a></li>
+									<li ng-class="{'active':view_type=='month_view'}" ng-click="view_type='month_view';load_sheads(view_type)"> <a>Month</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-include="view_type">						
+					</div>					
+				</div>
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+<script>
+	$('.btn-toggle').click(function () {
+		$(this).find('.btn').toggleClass('active');
+
+		if ($(this).find('.btn-success').size() > 0) {
+			$(this).find('.btn').toggleClass('btn-success');
+		}
+		$(this).find('.btn').toggleClass('btn-default');
+
+	});
+</script>
+
+<script type="text/ng-template" id="week_view"><div class="tab-pane active" id="week">
+							<div class="table-responsive">
+								<table class="table table-bordered scheduler-table-wapper">
+									<tr>
+										<td>
+											<table class="table">
+												<tr>
+													<th colspan="1" class="text-center" ng-repeat="weekday in sheads">{{weekday.date}} <span class="text-muted">({{weekday.day}})</span></th>
+													<!--<th colspan="1" class="text-center">29/08/2016 <span class="text-muted">(Monday)</span></th>-->
+												</tr>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="scheduler-table-data">
+												<table class="table">
+													<tr>
+														<td colspan="1" ng-repeat="day_task in sheads">														
+															<div class="bg-1 data-list">
+																<div class="fill"></div>
+																<div class="dala-list-content">
+																	<i class="fa fa-arrows-alt"></i>
+																	<ul class="list-unstyle">
+																		<li ng-repeat="task in load_tasks_by_date(day_task.date)"><strong>Task 1 </strong> <a href="#"><i class="fa fa-times"></i></a></li>																		
+																	</ul>																	
+																</div>
+															</div>
+															<div class="bg-2 data-list">
+																<div class="dala-list-content">
+																	<i class="fa fa-arrows-alt"></i>
+																	<ul class="list-unstyle">
+																		<li><strong>Breakfast at Starbucks</strong> <a href="#"><i class="fa fa-times"></i></a></li>
+																	</ul>
+																	</div>
+																</div>
+															<div class="bg-3 data-list">
+																<div class="dala-list-content">
+																	<i class="fa fa-arrows-alt"></i>
+																	<ul class="list-unstyle">
+																		<li><strong>Breakfast at Starbucks</strong> <a href="#"><i class="fa fa-times"></i></a></li>
+																		<li><strong>Task 2 </strong> <a href="#"><i class="fa fa-times"></i></a></li>
+																		<li><strong>Task 3 </strong> <a href="#"><i class="fa fa-times"></i></a></li>
+																	</ul>
+																	</div>
+																</div>
+														</td>														
+													</tr>
+												</table>
+											</div>
+										</td>
+									</tr>
+
+								</table>
+							</div>
+
+						</div>
+</script>
+<script type="text/ng-template" id="month_view">
+<div role="tabpanel" class="tab-pane active" id="month">
+							<div class="table-responsive">
+								<table class="table table-bordered scheduler-table-wapper">
+									<tr>
+										<td>
+											<table class="table">
+												<tr>
+													<th colspan="1" class="text-center" ng-repeat="weekday in sheads">{{weekday.day}}</th>
+													<!--<th colspan="1" class="text-center">Monday</th>
+													<th colspan="1" class="text-center">Tuesday</th>
+													<th colspan="1" class="text-center">Wednesday</th>
+													<th colspan="1" class="text-center">Thursday</th>
+													<th colspan="1" class="text-center">Friday</th>
+													<th colspan="1" class="text-center">Saturday</th>-->
+												</tr>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="scheduler-table-data">
+												<table class="table">
+													<tr ng-repeat="week in month_weeks">
+														<td colspan="1" ng-repeat="day in week.days">
+															<span class="date text-muted">{{day.day}}</span>
+
+															<div class="bg-1 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Practice</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+															<div class="bg-2 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Breakfast at Starbucks</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+															<div class="bg-3 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Breakfast at Starbucks</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+
+														</td>
+														<!--<td colspan="1">
+															<span class="date">1</span>
+															<div class="bg-4 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Breakfast at Starbucks</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+															<div class="bg-4 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Breakfast at Starbucks</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+															<div class="bg-5 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Breakfast at Starbucks</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+														</td>
+														<td colspan="1"><span class="date">2</span></td>
+														<td colspan="1"><span class="date">3</span></td>
+														<td colspan="1"><span class="date">4</span></td>
+														<td colspan="1">
+															<span class="date">5</span>
+															<div class="bg-5 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Breakfast at Starbucks</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+														</td>
+														<td colspan="1"><span class="date">6</span></td>-->
+													</tr>
+													<!--<tr>
+														<td><span class="date">7</span></td>
+														<td><span class="date">8</span></td>
+														<td>
+															<span class="date">9</span>
+															<div class="bg-4 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Breakfast at Starbucks</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+															<div class="bg-1 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Breakfast at Starbucks</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+														</td>
+														<td><span class="date">10</span></td>
+														<td><span class="date">11</span></td>
+														<td><span class="date">12</span></td>
+														<td><span class="date">13</span></td>
+													</tr>
+													<tr>
+														<td><span class="date">14</span></td>
+														<td><span class="date">15</span></td>
+														<td><span class="date">9</span></td>
+														<td><span class="date">16</span></td>
+														<td><span class="date">17</span></td>
+														<td>
+															<span class="date">18</span>
+															<div class="bg-3 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Breakfast at Starbucks</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+															<div class="bg-4 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Breakfast at Starbucks</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+
+														</td>
+														<td><span class="date">19</span></td>
+													</tr>
+													<tr>
+														<td><span class="date">20</span></td>
+														<td><span class="date">21</span></td>
+														<td>
+															<span class="date">22</span>
+															<div class="bg-1 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Practice</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+															<div class="bg-2 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Breakfast at Starbucks</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+
+														</td>
+														<td><span class="date">23</span></td>
+														<td><span class="date">24</span></td>
+														<td><span class="date">25</span></td>
+														<td>
+															<span class="date">26</span>
+															<div class="bg-4 data-list">
+																<i class="fa fa-arrows-alt"></i>
+																<span>Breakfast at Starbucks</span>
+																<a href="#"><i class="fa fa-times"></i></a>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td><span class="date">27</span></td>
+														<td><span class="date">28</span></td>
+														<td><span class="date">29</span></td>
+														<td><span class="date">30</span></td>
+														<td><span class="date">31</span></td>
+														<td><span class="date text-muted">1</span></td>
+														<td><span class="date text-muted">2</span></td>
+													</tr>-->
+												</table>
+											</div>
+										</td>
+									</tr>
+
+								</table>
+							</div>
+						
+						</div>
+</script>
+

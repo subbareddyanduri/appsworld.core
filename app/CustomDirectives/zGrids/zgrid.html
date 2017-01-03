@@ -1,0 +1,51 @@
+﻿<!-- desktop view permissions -->
+<label>&nbsp;</label>
+<ul class="list-unstyled list-inline text-right edit-tools-wrapper hidden-xs ng-scope" ng-if="options.isActionsRequired">
+    <li ng-repeat="action in options.actions"><a href="" id="$index" tooltip-placement="top" uib-tooltip="{{action.name}}" ng-click="action_click(action.name)"><i class="{{action.icon}}"></i></a></li>   
+</ul>
+<!-- mobile view permissions -->
+
+<div class="col-xs-12 mobile-menu filter-icons-wapper visible-xs contact-box padding gh h-22" ng-if="options.isActionsRequired">     
+        <span class="navbar-toggle mobile-menu-toggle mtm-24 mr-5 cursor-pointer" data-toggle="collapse" data-target="#mobile">
+            <i class="fa fa-ellipsis-h f-18"></i>
+        </span>
+        <div class="collapse mobile-nav mtm-23 mr-0" id="mobile">
+            <ul class="list-unstyled list-inline text-right edit-tools-wrapper visible-xs ng-scope">
+                <li class="pull-left ml-15" ng-repeat="action in options.actions"><a href="" id="$index" ng-click="action_click(action.name)"><i class="{{action.icon}} mbm-3"></i> <span>{{action.name}}</span></a></li>
+            </ul>
+        </div>  
+</div>
+
+
+<table st-table="data" class="table table-striped">
+    <thead>
+        <tr>
+            <th ng-repeat="th in options.fields">{{th.title}}</th>            
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="tr in data" ng-click="selected_record($index)" ng-include="row_td(tr)">
+           
+        </tr>
+    </tbody>
+</table>
+<script type="text/ng-template" id="display">
+    <label>{{tr[td.lbldisplay]||tr[td.name]}}</label>
+</script>
+<script type="text/ng-template" id="editable_td">
+    <td ng-repeat="td in options.fields" ng-include="td_content(true,td)"></td>
+</script>
+<script type="text/ng-template" id="display_td">
+    <td ng-repeat="td in options.fields" ng-include="td_content(false,td)"></td>
+</script>
+<script type="text/ng-template" id="text">
+   <label ng-if="check_label(options)">{{td.title}}</label>
+    <input type="text" ng-model="tr[td.name]" placeholder="{{td.name}}" ng-change="input_value_change(td.name,tr)" class="form-control" />
+</script>
+<script type="text/ng-template" id="select">
+    <label ng-if="check_label(options)">{{td.title}}</label>
+    <select ng-model="tr[td.name]" class="form-control" ng-change="input_value_change(td.name,tr)">
+       <option value="">Select Option</option>
+        <option ng-repeat="item in td.data" value="{{item[td.valueField]}}">{{item[td.textField]}}</option>
+    </select>
+</script>

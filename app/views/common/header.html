@@ -1,0 +1,252 @@
+<div class="color-line">
+</div>
+<div ng-controller="headerController as vm">
+    <div class="navbar-left light-version">
+        <ul class="nav navbar-nav no-borders bigmenu-dropdown-wapper">
+            <li uib-dropdown ng-if="vm.moduleList.length!=0">
+                <a href="#" uib-dropdown-toggle>
+                    <i class="pe-7s-keypad" style="color:#e67e22;"></i>
+                </a>
+                <div uib-dropdown-menu class="hdropdown bigmenu animated flipInX">
+                    <div class="bigmenu-bg">                       
+                        <ul>
+                            <li ng-repeat="module in vm.moduleList" ng-if="$index<=4" ng-class="{'not-allowed':module.Status!=='Active'}">
+                                <a class="{{module.CssSprite}}" ng-click="module.Status==='Active'?vm.changeModule(module):''" ng-class="{'not-allowed':module.Status!=='Active'}">
+                                    <i class="{{module.FontAwesome}}"></i>
+                                    <h5>{{module.Name}}</h5>
+                                </a>
+                            </li>
+                            <!--<td>
+                                <a ui-sref="app_views.mailbox">
+                                    <i class="pe pe-7s-mail text-warning"></i>
+                                    <h5>Document Cursor</h5>
+                                </a>
+                            </td>-->
+                        </ul>
+                        <ul>
+                            <li ng-repeat="module in vm.moduleList" ng-if="$index>4" ng-class="{'not-allowed':module.Status!=='Active'}">
+                                <a class="{{module.CssSprite}}" ng-click="module.Status==='Active'?vm.changeModule(module):''" ng-class="{'not-allowed':module.Status!=='Active'}">
+                                    <i class="{{module.FontAwesome}}"></i>
+                                    <h5>{{module.Name}}</h5>
+                                </a>
+                            </li>
+                            <!--<td>
+                                <a ui-sref="app_views.forum">
+                                    <i class="pe pe-7s-comment text-info"></i>
+                                    <h5>CS Cursor</h5>
+                                </a>
+                            </td> -->
+
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="logo" class="light-version">
+
+        <span ng-show="vm.checkRole('admin')">
+            {{vm.companyName}}
+        </span>
+         <span class="mr-14" style="width: 180px;" ng-if="!vm.companyName">
+            <img class="mtm-12" src="content/images/logo-small.png">
+        </span>
+    </div>
+    <nav role="navigation">
+        <minimaliza-menu ng-hide="$state.current.name === 'selectcompany'"></minimaliza-menu>
+        <div class="small-logo">
+            <span class="text-primary">Apps World</span>
+        </div>
+        <!--<form role="search" class="navbar-form-custom" method="post" action="#" ng-if="vm.checkRole('admin')">
+            <div class="form-group" ng-hide="$state.current.name === 'selectcompany'">
+                <input type="text" placeholder="Search something special" class="form-control" name="search" ng-model="searchText">
+            </div>
+            <div style="margin-top: -47px;cursor:pointer;">
+                <span ng-click="$state.go('admin.search',{searchText:searchText})"><i class="fa fa-search pull-right" style="color:#fff;"></i></span>
+            </div>
+        </form>-->
+        <div class="mobile-menu">
+            <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">
+                <i class="pe-7s-power"></i>
+            </button>
+            <div class="collapse mobile-navbar" id="mobile-collapse">
+                <ul class="nav navbar-nav">
+                    <!--<li>
+                        <a ui-sref="common.login">Login</a>
+                    </li>
+                    <li>
+                        <a ui-sref="common.register">Logout</a>
+                    </li>
+                    <li>
+                        <a ui-sref="app_views.profile">Profile</a>
+                    </li>-->
+                    <li>
+                        <a ng-controller="resetpasswordController" data-ng-click="open('md')"><i class="fa fa-lock"></i> Change Password</a>
+                    </li>
+                    <li ng-hide="$state.current.name === 'selectcompany'">
+                        <a ui-sref="core.userProfile"><i class="fa fa-pencil" aria-hidden="true"></i> Edit Profile</a>
+                    </li>
+                    <li ng-if="vm.isMultiCompany" ng-hide="$state.current.name === 'selectcompany'">
+                        <a ng-click="vm.chooseCompany()"><i class="fa fa-pencil" aria-hidden="true"></i>Change Company</a>
+                    </li>
+                    <!--<li>
+                        <a ui-sref="selectcompany"><i class="fa fa-home" aria-hidden="true"></i>Choose Company</a>
+                    </li>-->
+                    <li>
+                        <a ng-click="vm.logout()"><i class="fa fa-sign-out"></i> Logout</a>
+                    </li>
+                    <!--<li ng-if="vm.checkRole('admin')">
+                        <div class="form-group" ng-hide="$state.current.name === 'selectcompany'">
+                            <input type="text" placeholder="Search something special" class="form-control col-md-9" name="search" ng-model="searchText">
+                        </div>
+                        <div class="form-control" style="margin-top: -49px;margin-left: 188px;cursor:pointer;">
+                            <span ng-click="$state.go('admin.search',{searchText:searchText})"><i class="fa fa-search"></i></span>
+                        </div>
+                    </li>-->
+                </ul>
+            </div>
+        </div>
+        <div class="navbar-right">
+            <ul class="nav navbar-nav no-borders">
+                <li uib-dropdown ng-if="vm.superUserLinks||vm.bookMarkList" ng-show="vm.checkRole('admin')">
+                    <a class="label-menu-corner" href="#" uib-dropdown-toggle style="color:white">
+                        <i class="top-icons bookmark-icon"></i>
+                    </a>
+                    <div bookmark-list></div>
+
+                </li>
+
+                <!--<li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                        <i class="pe-7s-speaker"></i>
+                    </a>
+                    <ul uib-dropdown-menu class="hdropdown notification animated flipInX">
+                        <li>
+                            <a>
+                                <span class="label label-success">NEW</span> It is a long established.
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <span class="label label-warning">WAR</span> There are many variations.
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <span class="label label-danger">ERR</span> Contrary to popular belief.
+                            </a>
+                        </li>
+                        <li class="summary"><a href="#">See all notifications</a></li>
+                    </ul>
+                </li>-->
+
+                <li uib-dropdown ng-if="vm.checkRole('admin')" ng-hide="true">
+                    <a class="label-menu-corner" href="#" uib-dropdown-toggle style="color:white">
+                        <i class="pe-7s-mail"></i>
+                        <!--<span class="label label-success">4</span>-->
+                    </a>
+                    <ul uib-dropdown-menu class="hdropdown animated flipInX">
+                        <div class="title">
+                            You have  new messages
+                        </div>
+                        
+                        <li class="summary"><a href="#">See All Messages</a></li>
+                    </ul>
+                </li>
+                 <li ng-if="vm.checkRole('admin')&&vm.activeAnalytics">
+                    <a ng-click="$root.rightSidebar = !$root.rightSidebar" style="color:white">
+                        <!--<i class="analitics-icon top-icons"></i>-->
+                        <i class="analitics-icon top-icons"></i>
+                    </a>
+                </li>
+                <!--<li ng-if="vm.checkRole('admin')">
+                    <a ng-click="$root.rightSidebar = !$root.rightSidebar" style="color:white">
+                        <i class="analitics-icon top-icons"></i>
+                    </a>
+                </li>-->
+                <li class="user-profile" uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                        <img src="{{vm.userImage}}" class="user-icon">
+                        <label class="user-text"> {{vm.userEmail}}</label>
+                        <span class="caret"></span>
+                    </a>
+                    <ul uib-dropdown-menu class="hdropdown notification animated flipInX logoutmenu user-profile-drop">
+                        <li class="user-pro-details" style="">
+                            <img src="{{vm.userImage}}" class="user-icon-big">
+                            <label>{{vm.userName}}</label>
+                        </li>
+                        <li>
+                            <a ng-controller="resetpasswordController" data-ng-click="open('md')"><i class="pe-7s-unlock"></i> Change Password</a>
+                        </li>
+                        <li ng-hide="$state.current.name === 'selectcompany'">
+                            <a ui-sref="core.userProfile"><i class="fa fa-edit" aria-hidden="true"></i> Edit Profile</a>
+                        </li>
+                        <li ng-if="vm.isMultiCompany" ng-hide="$state.current.name === 'selectcompany'">
+                            <a ng-click="vm.chooseCompany()"><i class="pe-7s-prev" aria-hidden="true"> </i> Change Company</a>
+                        </li>
+                        <!--<li>
+                            <a ui-sref="selectcompany"><i class="pe-7s-home" aria-hidden="true"></i>Choose Company</a>
+                        </li>-->
+                        <li>
+                            <a ng-click="vm.logout()"><i class="pe-7s-power"></i> Logout</a>
+                        </li>
+                    </ul>
+
+                </li>
+            </ul>
+        </div>
+      
+    </nav>
+</div>
+
+<script type="text/ng-template" id="resetpasswordcontent.html">
+<div class="color-line"></div>
+    <div class="modal-header">
+        <h4 class="row" style="color:#34495e !important;text-transform: uppercase;font-weight: 600 !important;font-size: 16px !important;"> Change Password</h4>
+    </div>
+    <div class="modal-body clearfix">
+        <div id="validationDiv" ng-show="isValidationRequired">
+            <div class="row alert alert-danger alert-dismissable" style="margin-top: -15px;">
+                <p ng-repeat="vms in validationMessages">
+                    <i class="alert-icon"></i>&nbsp;{{vms}}
+                </p>
+                <!--<span style="padding-right:80px"></span>-->
+            </div>
+        </div>
+        <div z-loader></div>
+        <form name="form" style="margin: -8px -30px 0px -25px;" id="form" kendo-validator="vm.validator" k-options="vm.validationOptions" ng-submit="vm.validate($event)" class="k-content row form-validation" role="form">
+            <div class="col-md-12">
+                <label>Current password</label>
+                <input type="password" id="currentPass" ng-blur="currentPasswordFun()" name="" class="form-group form-control mand isreq" placeholder="Current password" ng-model="currentPassword" data-validationtype="required">
+            </div>
+            <div class="col-md-12">
+                <label>
+                    New password
+                    <span>
+                        <a href="#" class="sinfo" tooltip-placement="top" uib-tooltip="Password must have atleast one upperCase, lowercase, number and a special character,minlength 6"><i class="fa fa-info"></i></a>
+                    </span>
+                </label>
+                <input type="password" id="newPassword" name="" class="form-group form-control mand" placeholder="New password" ng-blur="newpasswordFun()" ng-model="newPassword" data-validationtype="required">
+            </div>
+            <div class="col-md-12">
+                <label>Confirm password</label>
+                <input type="password" id="confirmPassword" name="" class="form-group form-control mand" ng-blur="confirmPasswordFun()" placeholder="Confirm password" ng-model="confirmPassword" data-validationtype="required">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-save" ng-disabled="progress" ng-click="ok()">Save<i class="save-icon"></i></button>
+        <button class="btn btn-cancel" ng-click="cancel()">Cancel<i class="cancel-icon"></i></button>
+    </div>
+</script>
+
+<style>
+.btn-save {background: #34495e;border-color: #34495e;color: #FFFFFF;font-weight: 600;transition: 0.3s ease-in-out all;}
+.btn-save .save-icon {background: url(../content/images/icons-bg.png) no-repeat;background-position: 2px -81px;width: 24px;height: 20px;display: inline-block;vertical-align: text-bottom;margin-right: 2px;}
+.btn-cancel {background: #ccc;border-color: #ccc;color: #444;font-weight: 600;transition: 0.3s ease-in-out all;}
+.btn-cancel .cancel-icon {background: url(../content/images/icons-bg.png) no-repeat;background-position: -59px -81px;width: 24px;height: 20px;display: inline-block;vertical-align: text-bottom;}
+.alert-icon {width: 26px;height: 24px;background: url(../content/images/icons-bg.png);background-position: -3px -106px;display: inline-block;vertical-align: text-bottom;}
+.alert{padding: 5px;margin-bottom: 15px;border: 1px solid #bd0400;border-radius: 4px;}
+.z-invalid {
+    background-color:#f7f9fa !important;}
+</style>

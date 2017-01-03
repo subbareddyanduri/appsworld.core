@@ -1,0 +1,55 @@
+﻿<!--author:SubbaReddy
+Date:05/01/2016
+Description:this Common For All MasterGrids-->
+<!--<div ng-controller="masterGrid as vm">
+    <div button-directive></div>
+    <div class="clear" style="margin-top: 2px;">
+        <kendo-grid id="masterGrid" k-options="vm.masterGridOptions"></kendo-grid>
+    </div>
+</div>-->
+<div ng-controller="masterGrid as vm">
+    <!--<div class="col-md-12 hidden-xs" button-directive style="overflow:hidden"></div>-->
+    <!--<div class="col-xs-12 mobile-menu filter-icons-wapper visible-xs contact-box">
+        <button type="button" class="btn btn-default navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile">
+            <i class="fa fa-chevron-down"></i>
+        </button><br /><br />
+        <div class="collapse mobile-nav " id="mobile">
+            <div button-directive style="overflow:hidden"></div>
+        </div>
+    </div>-->
+    <div z-loader></div>
+    <div class="clear" style="margin-top: 2px;">
+        <kendo-grid id="masterGrid" k-options="vm.masterGridOptions"></kendo-grid>
+    </div>
+</div>
+<script type="text/ng-template" id="historytemplate.html">
+    <div class="hpanel pa">
+        <div class="panel-heading">
+            History of {{streemName}}
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive overflow-yauto">
+                <div ng-show="isLoading">Loading please wait.......</div>
+                <div ng-show="historyModel.length===0&&!isLoading">No history found for selected {{streemName}}</div>
+                <table cellpadding="1" cellspacing="1" class="table">
+                    <thead>
+                        <tr>
+                            <th ng-repeat="thead in theads">{{thead}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="thead in historyModel">
+                            <td ng-repeat="key in theads">
+                                {{history_td_value(key,thead[modelName][key])}}
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>            
+        </div>
+        <div class="panel-footer" style="height:47px">
+            <button type="button" class="btn btn-primary pu pull-right" ng-click="ok()">Ok</button>
+        </div>
+    </div>
+</script>

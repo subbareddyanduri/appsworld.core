@@ -1,0 +1,239 @@
+<div class="tile-body main-contact mt-15">
+    <div ng-show="contactgridobject.length==0">
+        <h3 class="text-center f-18">No Contacts available</h3>
+    </div>
+    <div class="row">
+        <div class="row" ng-hide="contactgridobject.length==0">
+            <div class="col-xs-12 col-sm-6 col-md-6 pull-right mtm-10 search-w95p">
+                <div class="input-group mr-15 pr-5" ng-show="isshowletter">
+                    <input type="text" class="form-control input-sm k-textbox" ng-model="search" placeholder="Search">
+                    <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default btn-sm h-34"><i class="fa fa-search" style="color:#3498db;font-size: 17px;"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="lg-col col-xs-12 col-sm-6 col-md-6" ng-init="isMattersClick=false;isAssClick=false">
+            <accordion class="col-md-12 panel-acc mt-5 contact-icon contact-res panel-bg contacts-panel pl-5 pr-5" close-others="oneAtATime" ng-repeat="contact in  contactsSection1|filter:search">
+                <accordion-group class="panel-default">
+                    <accordion-heading>
+                        <div class="contact-box" style="overflow-y:auto!important;position:relative;overflow-x: hidden;">
+                            <div class="col-sm-4 col-xs-4 col-md-3 ">
+                                <div class="text-center ml-10 mt-15">
+                                    <img ng-show="contact.Small != null" alt="image" class="img-circle m-t-xs img-responsive w-150 h-89" ng-src="{{contact.Small}}">
+                                    <img ng-hide="contact.Small != null" ng-src="http://placehold.it/170?text=Image" class="img-circle m-t-xs img-responsive w-150 h-89">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-8 col-xs-8 col-md-9 mt-5 mb-10 contact-address">
+                                <div class="pull-right contact-360view actions icon-pos cards" style="position:absolute;top:34px !important;">
+                                    <button type="button" ng-show="contact.IsVendor===true" class="btn btn-rounded-20 btn-info btn-sm mr-5 w-30" tooltip-placement="bottom" uib-tooltip="Vendor Contact"><i class="fa fa-v"></i></button>
+                                    <button type="button" ng-show="contact.IsVendor===false" class="btn btn-rounded-20 btn-info btn-sm mr-5 w-30" tooltip-placement="bottom" uib-tooltip="Account/Lead Contact"><i class="fa fa-c"></i></button>
+                                    <button type="button" ng-show="isshowmatters && contact.Matters" class="btn btn-rounded-20 btn-info btn-sm mr-5 w-30" tooltip-placement="bottom" uib-tooltip="Matters" ng-click="getContactMatters(contact.ContactId);isMattersClick=!isMattersClick;isAssClick=false"><i class="fa fa-angle-down"></i></button>
+                                    <button type="button" ng-show="isshowassociations && contact.IsAssociate && !islead" class="btn btn-rounded-20 btn-info btn-sm mr-13 w-30" tooltip-placement="bottom" uib-tooltip="Associations" ng-click="getContactAssociations(contact.ContactId);isMattersClick=false;isAssClick=!isAssClick"><i class="fa fa-users mlm-3"></i></button>
+                                    <button type="button" ng-show="isshowassociations && contact.IsAssociate && islead" class="btn btn-rounded-20 btn-info btn-sm mr-5 w-30" tooltip-placement="bottom" uib-tooltip="Associations" ng-click="getContactLeadAssociations(contact.ContactId,contact.AccountId);isMattersClick=false;isAssClick=!isAssClick"><i class="fa fa-users mlm-3"></i></button>
+                                    <button ng-show="isshowprimarybtn&&contact.IsPrimaryContact" type="button" class="btn btn-rounded-20 btn-success btn-sm mr-5 w-30"><i class="fa fa-check mlm-2"></i></button>
+                                    <button type="button" ng-show="isshowedit" class="btn btn-rounded-20 btn-primary btn-sm mr-5" ng-click="editContact(contact)" tooltip-placement="bottom" uib-tooltip="Edit"><i class="fa fa-pencil"></i></button>
+                                    <button type="button" ng-show="isshowdeleteicon" ng-click="deleteContact(contact)" class="btn btn-rounded-20 btn-primary btn-sm mr-5 w-30" tooltip-placement="bottom" uib-tooltip="Delete"><i class="fa fa-times"></i></button>
+                                </div>
+                                <h5>
+                                    <strong>
+                                        <label class="w87p cardsf-13" style="width: 52%;word-break: break-all;" ng-hide="isshowedit" data-ng-click="viewContact(contact)"><a>{{contact.Salutation}} {{contact.FirstName}}</a></label>
+                                           <label class="w87p cardsf-13" style="width: 52%;" ng-show="isshowedit"><strong style="word-break: break-all;">{{contact.Salutation}} {{contact.FirstName}}</strong></label>
+                                        <label class="pull-right" ng-show="isshowlabel&&contact.Status=='Inactive'">&nbsp;&nbsp;&nbsp;<span class="badge bg-red mr-0" style="margin-bottom:-63px;">Inactive</span></label>
+                                    </strong>
+                                </h5>
+                                <address>
+                                    <p style="width: 55%;"><strong>Company Name</strong> : {{contact.CompanyName}}</p>
+                                    <p><strong>Designation</strong> : {{contact.Designation}}</p>
+                                    <p ng-repeat="cm in contact.Communications"><strong>{{cm.type}}</strong> : {{cm.value}}</p>
+                                </address>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </accordion-heading>
+                    <div ng-show="isshowassociations" class="table-responsive associatonheader" ng-if="isAssClick">
+                        <table class="table mb-0" style="border: 1px solid #e6e6e6;">
+                            <thead>
+                                <tr class="associations">
+                                    <th><h4>Company Name</h4></th>
+                                    <th><h4>Designation</h4></th>
+                                    <th><h4>Communication</h4></th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="cntAss in contact.Assosiations" ng-mouseover="$parent.selectedIndex = $index" ng-mouseleave="$parent.selectedIndex = null">
+                            
+                                    <td>{{cntAss.AccountName}}</td>
+                                    <td>{{cntAss.Designation}}</td>
+                                    <td>
+                                        <p ng-repeat="cm in cntAss.Communications.slice(0, 2)" ng-hide="cm.length==0">
+                                          
+                                            {{cm.value}}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <label ng-show="isshowassociatelabel&&cntAss.Status=='Inactive'" class="font-30"><span class="badge bg-red">Inactive</span></label>
+                                        <a class="ablack" ng-click="pingAssosiation(cntAss,contact)" ng-show="($parent.selectedIndex == $index || cntAss.IsPinned===true) && isshowassociatelabel&&cntAss.Status==='Active'"><i class="fa fa-thumb-tack" ng-class="{'fa-rotate-45':cntAss.IsPinned}"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-show="isshowassociations" class="table-responsive con-tr hide" ng-if="isAssClick">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr class="associations">
+                                    <th class="pull-left"><h2>Associations</h2></th>
+                                    <th class="pull-left">
+                                        <div ng-show="contact.Assosiations.length==0">
+                                            <h3>No Associations available</h3>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="col-md-12" ng-repeat="cntAss in contact.Assosiations">
+                                    <td class="col-md-6" style="text-align:left;">
+                                        <p><i class="fa fa-building"></i> {{cntAss.CompanyName}}</p>
+                                        <address>
+                                            {{cntAss.Designation}}<br />{{cntAss.AccountName}}
+                                            <p ng-repeat="cm in contact.Communications.slice(0, 2)">{{cm.type}} : {{cm.value}}</p>
+                                        </address>
+                                    </td>
+                                    <td class="col-md-6"></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive" ng-if="isMattersClick">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr class="associations">
+                                    <th class="pull-left matt w100p">
+                                        <h2>Matters - <small> <span ng-init="matters=contact.Matters.split(';')"> {{matters.join(',')}}</span></small></h2>
+
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+
+        <div class="lg-col2 col-xs-12 col-sm-6 col-md-6" ng-init="isMattersClick1=false;isAssClick1=false">
+            <accordion class="col-md-12 panel-acc mt-5 contact-icon contact-res panel-bg contacts-panel pl-5 pr-5" close-others="oneAtATime" ng-repeat="contact in  contactsSection2|filter:search">
+                <accordion-group class="panel-default">
+                    <accordion-heading>
+                        <div class="contact-box" style="overflow-y:auto!important;position:relative;overflow-x: hidden;">
+                            <div class="col-sm-4 col-xs-4 col-md-3 cardsmlm-19">
+                                <div class="text-center ml-10 mt-15">
+                                    <img ng-show="contact.Small != null" alt="image" class="img-circle m-t-xs img-responsive w-150 h-89" ng-src="{{contact.Small}}">
+                                    <img ng-hide="contact.Small != null" ng-src="http://placehold.it/170?text=Image" class="img-circle m-t-xs img-responsive w-150 h-89">
+                                </div>
+                            </div>
+                            <div class="col-sm-8 col-xs-8 col-md-9 mt-5 mb-10 contact-address">
+                                <div class="pull-right contact-360view actions icon-pos cards" style="position:absolute;top:34px !important;">
+                                    <button type="button" ng-show="contact.IsVendor===true" class="btn btn-rounded-20 btn-info btn-sm mr-5 w-30" tooltip-placement="bottom" uib-tooltip="Vendor Contact"><i class="fa fa-v"></i></button>
+                                    <button type="button" ng-show="contact.IsVendor===false" class="btn btn-rounded-20 btn-info btn-sm mr-5 w-30" tooltip-placement="bottom" uib-tooltip="Account/Lead Contact"><i class="fa fa-c"></i></button>
+                                    <button type="button" ng-show="isshowmatters && contact.Matters" class="btn btn-rounded-20 btn-info btn-sm mr-5 w-30" tooltip-placement="bottom" uib-tooltip="Matters" ng-click="getContactMatters(contact.ContactId);isMattersClick=!isMattersClick;isAssClick=false"><i class="fa fa-angle-down"></i></button>
+                                    <button type="button" ng-show="isshowassociations && contact.IsAssociate && !islead" class="btn btn-rounded-20 btn-info btn-sm mr-5 w-30" tooltip-placement="bottom" uib-tooltip="Associations" ng-click="getContactAssociations(contact.ContactId);isMattersClick=false;isAssClick=!isAssClick"><i class="fa fa-users mlm-3"></i></button>
+                                    <button type="button" ng-show="isshowassociations && contact.IsAssociate && islead" class="btn btn-rounded-20 btn-info btn-sm mr-5 w-30" tooltip-placement="bottom" uib-tooltip="Associations" ng-click="getContactLeadAssociations(contact.ContactId,contact.AccountId);isMattersClick=false;isAssClick=!isAssClick"><i class="fa fa-users mlm-3"></i></button>
+                                    <button ng-show="isshowprimarybtn&&contact.IsPrimaryContact" type="button" class="btn btn-rounded-20 btn-success btn-sm mr-5 w-30"><i class="fa fa-check mlm-2"></i></button>
+                                    <button type="button" ng-show="isshowedit" class="btn btn-rounded-20 btn-primary btn-sm mr-5 w-30" ng-click="editContact(contact)" tooltip-placement="bottom" uib-tooltip="Edit"><i class="fa fa-pencil"></i></button>
+                                     <button type="button" ng-show="isshowdeleteicon" ng-click="deleteContact(contact)" class="btn btn-rounded-20 btn-primary btn-sm mr-5 w-30" tooltip-placement="bottom" uib-tooltip="Delete"><i class="fa fa-times"></i></button>
+                                </div>
+                                <h5>
+                                    <strong>
+                                        <label class="w87p cardsf-13" style="width: 52%;word-break: break-all;" ng-hide="isshowedit" data-ng-click="viewContact(contact)"><a>{{contact.Salutation}} {{contact.FirstName}}</a></label>
+                                        <label class="w87p cardsf-13" style="width: 52%;" ng-show="isshowedit"><strong style="word-break: break-all;">{{contact.Salutation}} {{contact.FirstName}}</strong></label>
+                                        <label ng-show="isshowlabel&&contact.Status=='Inactive'" class="font-30 pull-right"><span class="badge bg-red mr-0" style="margin-bottom:-63px;">Inactive</span></label>&nbsp;&nbsp;&nbsp;
+                                    </strong>
+                                </h5>
+                                <address>
+                                    <p style="width: 55%;"><strong>Company Name</strong> : {{contact.CompanyName}}</p>
+                                    <p><strong>Designation</strong> : {{contact.Designation}}</p>
+                                    <p ng-repeat="cm in contact.Communications"><strong>{{cm.type}}</strong> : {{cm.value}}</p>
+                                </address>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </accordion-heading>
+                    <div ng-show="isshowassociations" class="table-responsive" ng-if="isAssClick">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr class="associations">
+                                    <th><h4>Company Name</h4></th>
+                                    <th><h4>Designation</h4></th>
+                                    <th><h4>Communication</h4></th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="cntAss in contact.Assosiations" ng-mouseover="$parent.selectedIndex = $index" ng-mouseleave="$parent.selectedIndex = null">
+                                 
+                                    <td>{{cntAss.AccountName}}</td>
+                                    <td>{{cntAss.Designation}}</td>
+                                    <td>
+                                        <p ng-repeat="cm in cntAss.Communications.slice(0, 2)" ng-hide="cm.length==0"><!--{{cm.type}} :{{cm.length}} --> {{cm.value}}</p>
+                                    </td>
+                                    <td>
+                                        <label ng-show="isshowassociatelabel&&cntAss.Status=='Inactive'" class="font-30"><span class="badge bg-red">Inactive</span></label>
+                                        <a class="ablack" ng-click="pingAssosiation(cntAss,contact)" ng-show="($parent.selectedIndex == $index || cntAss.IsPinned===true) && isshowassociatelabel&&cntAss.Status==='Active'"><i class="fa fa-thumb-tack" ng-class="{'fa-rotate-45':cntAss.IsPinned}"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-show="isshowassociations" class="table-responsive con-tr hide" ng-if="isAssClick">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr class="associations">
+                                    <th class="pull-left"><h2>Associations</h2></th>
+                                    <th class="pull-left">
+                                        <div ng-show="contact.Assosiations.length==0">
+                                            <h3>No Associations available</h3>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="col-md-12" ng-repeat="cntAss in contact.Assosiations">
+                                    <td class="col-md-6" style="text-align:left;">
+                                        <p><i class="fa fa-building"></i> {{cntAss.CompanyName}}</p>
+                                        <address>
+                                            {{cntAss.Designation}}<br />{{cntAss.AccountName}}
+                                            <p ng-repeat="cm in contact.Communications.slice(0, 2)">{{cm.type}} : {{cm.value}}</p>
+                                        </address>
+                                    </td>
+                                    <td class="col-md-6"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive" ng-if="isMattersClick">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr class="associations">
+                                    <th class="pull-left matt w100p">
+                                        <h2>
+                                            Matters - <small>                                            
+                                                <span ng-init="matters=contact.Matters.split(';')"> {{matters.join(',')}}</span>
+                                            </small>
+                                        </h2>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+    </div>
+</div>
+
+
+

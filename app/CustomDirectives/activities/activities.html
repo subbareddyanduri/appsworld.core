@@ -1,0 +1,410 @@
+﻿<div class="hpanel">
+    <div class="panel-body mt-7" style="border: none !important;">
+        <div class="container-liquid">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div id="leftsidebar">
+                        <div class="tile" ng-class="{'subtabs':relatedType}">
+                            <div class="tile">
+                                <div z-loader></div>
+                                <ul class="nav nav-tabs">
+                                    <li ng-click="tabClickHandler('All')" ng-class="{'active':activityTabs.All}"> <a>All</a></li>
+                                    <li ng-click="tabClickHandler('Tasks')" ng-class="{'active':activityTabs.Tasks}"><a>Tasks</a></li>
+                                    <li ng-click="tabClickHandler('Events')" ng-class="{'active':activityTabs.Events}"><a>Events</a></li>
+                                    <li ng-click="tabClickHandler('Notes')" ng-class="{'active':activityTabs.Notes}"><a>Notes</a></li>
+                                </ul>
+                                <div class="row">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="col-md-12" id="validationDiv" ng-if="validation_message">
+                                                <div class="alert alert-danger alert-dismissable p-6 mt-10 mb-5">
+                                                    <p> <i class="alert-icon"></i>{{validation_message}} </p>
+                                                </div>
+                                            </div>
+                                            <div class="hpanel">
+                                                <div class="sampleimg">
+                                                    <loading></loading>
+                                                    <form name="activitymodule" id="activitymodule" form-validate class="k-content form-validation" role="form" ng-if="!activityTabs.All&&!isEdit&&!view">
+                                                        <div class="activity2">
+                                                            <div class="form-group">
+                                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                    <label for="Subject">
+                                                                        Subject
+                                                                        <div class="pull-right ml-5">
+                                                                            <input type="checkbox" id="High" class="k-checkbox" ng-model="activity.IsHighPriority">
+                                                                            <label class="k-checkbox-label mt-0" for="High"><span class="rcolor"><i class="fa fa-exclamation" tooltip-placement="top" uib-tooltip="Importance"></i></span></label>
+                                                                        </div>
+                                                                    </label>
+
+                                                                    <select data-role="listview" class="form-control w100p mand" name="" ng-options="type.Code as type.Name for type in subjects" ng-model="activity.Subject" id="Subject" data-validationtype="required">
+                                                                        <option value="">Select Option</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="demo-section k-content col-md-3 col-sm-6 col-xs-12 mt-20" ng-if="isActivityEdit&&active_tab!='Notes'">
+                                                                    <div class="col-md-6 checkbox display">
+                                                                        <input type="checkbox" ng-checked="activity.ActivityStatus=='Cancel'" id="High1" ng-click="toggle_activity_status('cancel',$event)" ng-model="isCancel">
+                                                                        <label for="High1"><span class="rcolor"></span>Cancel</label>
+                                                                    </div>
+                                                                    <div class="col-md-6 checkbox display pt-15" ng-show="active_tab!='Events'">
+                                                                        <input type="checkbox" id="High2" ng-checked="activity.ActivityStatus=='Completed'" ng-click="toggle_activity_status('completed',$event)" ng-model="isCompleted">
+                                                                        <label for="High2"><span class="rcolor"></span>Completed</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div ng-if="activityTabs.Tasks">
+                                                                    <div class="col-md-3 col-sm-6 col-xs-12 form-group custtop-22p">
+
+                                                                        <label>Due Date</label>
+                                                                        <div class="input-group date">
+                                                                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" placeholder="{{format}}" name="WorkPassDateApp" id="dueDate"
+                                                                                   show-weeks="false" min-date="minDate" ng-model="activity.DueDate" show-button-bar="false" is-open="datePicker.dueDateOpen" datepicker-options="dateOptions" close-text="Close" data-validationtype="date" data-format="{{format}}" />
+                                                                            <span class="input-group-btn">
+                                                                                <button type="button" class="btn btn-default h-34" ng-click="open($event,'dueDateOpen')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3 col-sm-6 col-xs-12 form-group custtop-22p">
+
+                                                                        <label for="Remind me">Remind Me</label>
+                                                                        <div class="input-group date">
+                                                                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" placeholder="{{format}}" name="RemindMe" id="remindme"
+                                                                                   show-weeks="false" min-date="minDate" ng-model="activity.RemindmeDate" show-button-bar="false" is-open="datePicker.remindmeOpen" datepicker-options="dateOptions" close-text="Close" data-validationtype="date" data-format="{{format}}" />
+                                                                            <span class="input-group-btn">
+                                                                                <button type="button" class="btn btn-default h-34" ng-click="open($event,'remindmeOpen')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div ng-if="activityTabs.Events">
+                                                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                                                                        <label>Date & Time</label>
+                                                                        <div class="form-horizontal">
+                                                                            <!--<div class="input-group date">-->
+                                                                            <div>
+                                                                                <input type="text" class="form-control mand" id="datepickerone" placeholder="{{datatime1}}" date-time-picker ng-model="activity.DueDate" data-validationtype="required" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-md-3 col-sm-6 form-group custtop-25p">
+                                                                        <label>Remind Me</label>
+                                                                        <div class="form-horizontal">
+                                                                            <!--<p class="input-group">-->
+                                                                            <p>
+                                                                                <input type="text" class="form-control" id="datepickertwo" placeholder="{{datatime1}}" date-time-picker ng-model="activity.RemindmeDate" />
+
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="form-group col-xs-12 col-sm-6 col-md-6 parheight" ng-show="activityTabs.Tasks||activityTabs.Events">
+                                                                    <label for="Participants">Participants</label>
+                                                                    <select kendo-multi-select
+                                                                            k-data-text-field="'Name'"
+                                                                            k-data-value-field="'Id'"
+                                                                            k-placeholder="'Select one or more Participants'"
+                                                                            k-value-primitive="true"
+                                                                            k-data-source="ParticipantsLU"
+                                                                            k-ng-model="activity.participants" id="toid" class="100p" name=""></select>
+                                                                </div>
+                                                                <div class="tile-header acttaskattach col-xs-12 col-sm-12 col-md-3  mt-15">
+                                                                    <ul class="controls activityicons">
+                                                                        <li ng-if="relatedType!='Vendor'&&relatedType!='vendor'">
+                                                                            <a tooltip-placement="top" uib-tooltip="Related To {{activity.RelatedModel[1].EntityName||activity.RelatedModel[0].EntityName}}" ng-click="open_model('md',relatedId,relatedType,relatedName)" href="">
+                                                                                <i class="fa fa-link"> <span class="badge badgesize mtm-2">{{activity.RelatedModel.length}}</span></i>
+
+                                                                            </a>
+                                                                        </li>
+                                                                        <li class="pl-0 taskup" style="width:50%">
+                                                                            <div class="k-upload k-header k-upload-empty k-valid">
+                                                                                <div class="k-dropzone">
+                                                                                    <div class="k-button k-upload-button">
+                                                                                        <input kendo-upload k-options="pdfUploadOptions" type="file" name="" id="pdfupload" class="pull-right mtm-40" />
+                                                                                        <span><i class="fa fa-paperclip mtm-2"><span class="badge badgesize mtm-2">{{files_length()}}</span></i></span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-12 col-xs-12 mt-5" ng-show="activity.FileRepoModel.length!=0&&files_length()!=0">
+                                                                    <div class="tile-header" id="acc-icon">
+                                                                        <span class="custom-font bcolor">Attached Files</span>
+                                                                    </div>
+                                                                    <div class="attachfile-input">
+                                                                        <ul>
+                                                                            <li class="mt-3" ng-repeat="file in activity.FileRepoModel" ng-if="file.RecStatus!='Deleted'">
+                                                                                <a href="{{file.FileFullPath}}" target="_blank">{{file.FileName}}</a><i class="fa fa-times ml-20" ng-click="delete_file(file)"></i>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-6 col-md-12 form-group">
+                                                                <label for="Descriptions">{{activityTabs.Notes?'Notes':'Description'}}</label>
+                                                                <textarea class="form-control" data-validationtype="{{active_tab=='Notes'?'required':''}}" rows="2" maxlength="250" ng-model="activity.Description" ng-class="{'mand':activityTabs.Notes}" id="txareaDescription"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="pull-right">
+                                                                <button type="submit" class="btn btn-save" ng-click="save_activity()">{{activityTabs.Notes?'Post':'Save'}}<i class="save-icon"></i></button>
+                                                                <button type="submit" class="btn btn-cancel" ng-click="cancel_activity()">Cancel<i class="cancel-icon"></i></button>
+                                                                <button type="submit" class="btn btn-default" ng-show="closebutton" ng-click="Close()">Close<i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                      <!--Edit div-->
+                                                    <div class="activity-view col-md-12" ng-if="isEdit">
+                                                        <div class="activity-top clearfix">
+                                                            <div class="activity-text">
+                                                                <h3 class="leadcards">
+                                                                    <i ng-class="activity_icon(activity.ActivityType)"> </i> {{activity.UserCreated}}
+                                                                    <span class="activity-actions">
+                                                                        <span class="actions">
+                                                                            <span class="badge p-5 mtm-5 badge-text" ng-class="{'badge badge-danger': activity.ActivityStatus==='Cancel', 'badge badge-success':activity.ActivityStatus==='Completed'}">{{activity.ActivityStatus}}</span>
+                                                                            <!--<a tooltip-placement="top" uib-tooltip="Reply" class="reply" ng-mouseover="mouseoverclick()" ng-click="repaly()" ng-if="(replyBtnShow&&!replaymodel)"><i class="reply-icon tool-icons"></i></a>-->
+                                                                            <a ng-mouseover="mouseoverclick()" ng-click="reply()" ng-if="active_tab=='Tasks'&&show_activity_actions('reply',activity)"><i class="fa fa-reply fa-flip-horizontal" tooltip-placement="top" uib-tooltip="Reply" style="font-size: 17px;"></i></a>
+                                                                            <!--<a tooltip-placement="top" uib-tooltip="Reply" class="reply" ng-mouseover="mouseoverclick()" ng-click="repaly()" ng-if="(taskobjuser!=activity.UserCreated&&!replaymodel)"><i class="reply-icon tool-icons"></i></a>-->
+                                                                            <a tooltip-placement="top" uib-tooltip="Edit" class="edit" ng-click="edit_activity(activity)"><i class="edit-icon tool-icons" ng-if="activity.UserCreated==userName"></i></a>
+
+                                                                            <a tooltip-placement="top" uib-tooltip="Delete" class="delete" ng-click="activity_actions(activity,'Delete')" ng-if="activity.UserCreated==userName"><i class="delete-icon tool-icons"></i></a>
+
+                                                                        </span>
+                                                                    </span>
+                                                                </h3>
+                                                                <p class="ml-22" ng-if="activity.DueDate"><strong>{{activity.ActivityType=='Tasks'?'Due Date':'Date & Time'}} - </strong><span class="text-red">{{activity.DueDate|date:dateplaceholder1}} </span></p>
+                                                                <p class="ml-22">
+                                                                    <strong>Subject</strong> - <i ng-if="activity.IsHighPriority" class="rcolor fa fa-exclamation"></i>
+                                                                    {{activity.Subject}}
+                                                                </p>
+                                                                <!--<p class="activity-date ml-25">{{activity.CreatedDate|formatDateAndTime}}</p>-->
+                                                                <p class="adefault ml-22" ng-if="activity.RelatedModel.length!=0"></p>
+                                                                <p class="ml-22" ng-if="activity.RelatedModel.length!=0&&relatedType==''"><strong>Related To -</strong> <span ng-click="activitylink(activity.RelatedModel)" ng-repeat="Ename in  activity.RelatedModel">{{Ename.EntityName}}{{$last ? '' : ', '}}</span> <br /></p>
+                                                                <p class="ablack ml-22" ng-if="activity.DueDate"><!--<strong>|</strong>--></p>
+                                                                <p class="ml-22" ng-if="activity.IsParticipant"> <strong>Participants</strong> -<span class="ablue" ng-repeat="pname in activity.ParticipantModel" ng-if="pname.Status=='Active'">{{pname.Name}}{{$last ? '' : ', '}}</span></p>
+                                                                <p class="ml-22 participantreplybox" ng-if="activity.FileRepoModel!=''">
+                                                                    <strong>Attatchments -</strong>
+                                                                    <span ng-repeat="files in activity.FileRepoModel"><a href="{{files.FileFullPath}}" target="_blank">{{files.FileName}}{{$last ? '' : ', '}} </a></span>
+                                                                </p>
+                                                                <p class="ml-22" ng-if="activity.Description">
+                                                                    <strong>Description - </strong><span class="ablack" ng-if="activity.Description"></span>{{activity.Description|activity_description}}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <hr />
+                                                        <div class="activity-body">
+                                                            <!-- Reply -->
+                                                            <div class="reply" ng-show="activity.ReplyModel.length!=0&&active_tab=='Tasks'&&isEdit">
+
+                                                                <div class="activity-top clearfix mb-15" ng-repeat="reply in activity.ReplyModel" ng-mouseover="$parent.selectedIndex = $index" ng-mouseleave="$parent.selectedIndex = null">
+                                                                    <div class="user-img">
+                                                                        <img src="content/images/profile.jpg">
+                                                                    </div>
+                                                                    <div class="activity-text">
+                                                                        <p class="media-heading pull-left" ng-show="reply.UserCreated == activity.UserCreated">{{reply.UserCreated}} <span class="media-reply"><!--<i class="fa fa-reply fa-flip-vertical"></i>--><!--<strong>Replies From</strong> {{activity.UserCreated}}-->  <span class="text-red">{{reply.ReplyDate|formatDateAndTime}} </span></span><br /></p>
+                                                                        <p class="media-heading pull-left" ng-show="reply.UserCreated != activity.UserCreated">{{reply.UserCreated}} <span class="media-reply"><!--<i class="fa fa-reply fa-flip-horizontal"></i>--><!--<strong>Replies To</strong> {{activity.UserCreated}}-->  <span class="text-red">{{reply.ReplyDate|formatDateAndTime}} </span></span></p>
+                                                                        <p type="submit" ng-if="reply.UserCreated!=userName" ng-mouseover="mouseoverclick()" ng-click="repaly()" ng-show="replayshowodel">&nbsp;<span class="badge p-5 mtm-5" ng-class="{'badge badge-danger': activity.ActivityStatus==='Cancel', 'badge badge-success':activity.ActivityStatus==='Completed'}">{{activity.ActivityStatus}}</span>&nbsp;<!--<i class="fa fa-reply fa-flip-horizontal"  tooltip-placement="top" uib-tooltip="Reply" style="font-size: 17px;"></i>--></p>
+
+                                                                        <span class="activity-actions">
+                                                                            <span class="actions">
+                                                                                <a ng-if="reply.UserCreated==userName" class="edit" tooltip-placement="top" uib-tooltip="Edit" ng-click="edit_reply(reply)"><i class="edit-icon tool-icons"></i></a>
+                                                                                <a ng-if="reply.UserCreated==userName" class="delete" tooltip-placement="top" uib-tooltip="Delete" ng-click="delete_reply(reply)"><i class="delete-icon tool-icons"></i></a>
+                                                                            </span>
+                                                                        </span>
+                                                                        <div class="activity-roles clearfix">
+                                                                            <p ng-if="reply.ParticipantModel!=''"> <strong>Participants - </strong> <span ng-repeat="pname in reply.ParticipantModel" ng-if="pname.Status=='Active'">{{pname.Name}}{{$last ? '' : ', '}}</span></p>
+                                                                            <p class="ml-50" ng-if="reply.FileRepoModel!=0">
+                                                                                <strong>Attachments -</strong><!--<a href="{{files.FileFullPath}}" target="_blank">{{files.FileName}}{{$last ? '' : ', '}}</a>-->
+                                                                                <span ng-repeat="files in reply.FileRepoModel"><a class="acolor text-info" href="{{files.FileFullPath}}" target="_blank">{{files.FileName}}{{$last ? '' : ', '}}</a></span>
+                                                                            </p>
+                                                                            <p class="ml-50"><strong>Description -</strong>  {{reply.Reply|activity_description}}</p>
+                                                                        </div>
+                                                                        <div class="activity-body">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                    <!--Reply form-->
+                                                    <div ng-if="isReply" class="row col-md-12">
+                                                        <form name="activityReplyform" id="activityReplyfrom" class="k-content form-validation" role="form">
+                                                            <div>
+                                                                <div class="col-md-12 mt-15 ">
+                                                                    <label for="Descriptions">Reply</label>
+                                                                    <span class="manualvalidation mtm-5 pull-right" ng-show="replydec"><i class="fa fa-exclamation-circle"></i>{{replydec}}</span>
+
+                                                                    <textarea class="form-control mand" name="Reply" ng-model="activityReply.Reply" id="Descriptions" rows="4" data-validationtype="required"></textarea>
+                                                                </div>
+                                                                <div class="form-group  col-sm-6 col-md-6 mt-10">
+                                                                    <label for="Actual Cost">Participants</label>
+                                                                    <select name="To" kendo-multi-select
+                                                                            k-data-text-field="'Name'"
+                                                                            k-data-value-field="'Id'"
+                                                                            k-placeholder="'Select one or more Participants'"
+                                                                            k-value-primitive="true"
+                                                                            k-data-source="ReplyParticipantsLU"
+                                                                            k-ng-model="activityReply.participants" class="w100p parheight" id="toid"></select>
+                                                                </div>
+
+                                                                <div class="col-md-2 mt-35 pl-0 task-fileprogress k-bordernone">
+                                                                    <ul class="taskpartul mlm-40">
+                                                                        <li class="pl-0 taskup" style="width:50%">
+                                                                            <div class="k-upload k-header k-upload-empty k-valid">
+                                                                                <div class="k-dropzone">
+                                                                                    <div class="k-button k-upload-button">
+                                                                                        <input kendo-upload k-options="pdfUploadOptionsReply" type="file" name="" id="pdfuploadreply" class="pull-right mtm-40" />
+                                                                                        <span><i class="fa fa-paperclip mtm-2"><span class="badge badgesize mtm-2">{{files_length('reply')}}</span></i></span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+
+                                                                </div>
+                                                                <div class="form-group col-md-4 col-sm-6 col-xs-12 mt-2" ng-show="activityReply.FileRepoModel.length!=0&&files_length('reply')!=0">
+                                                                    <div checkbox>
+                                                                        <h4 class="custom-font">Attached Files</h4>
+                                                                    </div>
+                                                                    <div class="attachfile-input bg-white">
+                                                                        <ul>
+                                                                            <li class="mt-3" ng-repeat="files in activityReply.FileRepoModel" ng-hide="files.RecStatus=='Deleted'"><a href="{{files.FileFullPath}}" target="_blank">{{files.FileName}}</a><i class="fa fa-times ml-20" ng-click="delete_file(files,'reply')"></i></li>
+
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-xs-12 pull-right mb-10">
+                                                                    <button type="submit" class="btn btn-cancel pull-right mt-27 ml-5 mtm-5" ng-click="cancel_reply()">Cancel<i class="cancel-icon"></i></button>
+                                                                    <button type="submit" sableng-did="participantsrpydisable" class="btn btn-notify pull-right mt-27 mtm-5" ng-click="save_reply()">Notify<i class="notify-icon"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 tile-header mt-15">
+                                                        <h4 class="color-wrapper-border pull-left mt-10">
+                                                            {{active_tab}}
+                                                            <span class=”sub-heading-icons”></span>
+                                                        </h4>
+
+                                                        <form class="form-inline col-md-offset-6">
+                                                            <div class="form-group input-group ml-30">
+                                                                <input type="text" class="form-control" id="serchid" ng-model="letter" placeholder="Search" ng-keyup="filter_data(letter)">
+                                                                <span class="input-group-addon">
+                                                                    <span><i class="fa fa-search"></i></span>
+                                                                </span>
+                                                            </div>
+                                                            <div class="form-group pull-right">
+                                                                <label for="exampleInputName2">View By:</label>
+                                                                <div class="input-group viewby-wmb view-wmb">
+                                                                    <select data-role="listview" class="form-control" name="" ng-options="type.name as type.name for type in sortByDS" ng-model="Sortby" ng-change="sort_data()">
+                                                                        <option value="">Select Option</option>
+                                                                    </select>
+                                                                    <span class="input-group-btn">
+                                                                        <a class="btn btn-default h-34" ng-click="preference(Sortby)" tooltip-placement="top" uib-tooltip="My Preferences">
+                                                                            <img class="img" src="content/images/iconsnew/save.png">
+                                                                        </a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <hr class="hr-top"/>
+                                                    </div>
+                                                    <br />
+                                                    <!---------------NEW CODE----------------->
+                                                    <div class="row col-xs-12">
+                                                        <div class="clearfix activity-wrapper">
+                                                            <div class="activity-row" ng-repeat="row in activities">
+                                                                <div class="col-md-4 activity-block min-h186" ng-repeat="card in row.list">
+                                                                    <div class="activity-top clearfix">
+                                                                        <!--<div class="activity-text" ng-click="cardclick(card)">-->
+                                                                        <div class="activity-text">
+                                                                            <h3 class="leadcards"><i ng-class="activity_icon(card.ActivityType)"></i> &nbsp;{{card.UserCreated}}</h3>
+                                                                            <span ng-if="card.FileRepoModel.length!=0">
+                                                                                <i class="pull-left fa fa-paperclip f-18"></i>
+                                                                            </span>
+                                                                            <div class="activity-sub">
+                                                                                <p ng-if="card.DueDate"><strong>{{card.ActivityType=='Tasks'?'Due Date':'Date & Time'}} - </strong><span class="activity-date text-red">{{card.DueDate|date:dateplaceholder1}}</span></p>
+                                                                                <strong>Subject -</strong> <span class="rcolor mr-10 " ng-if="card.IsHighPriority"><i class="fa fa-exclamation"></i></span><a class="text-left acolor" ng-class="{'text-info':active_tab!='All'}" ng-click="active_tab=='All'||view?'':edit_card(card)"> {{card.Subject}} </a>
+                                                                                <p class="adefault no-margin" ng-if="card.RelatedModel.length!=0&&relatedType==''">
+                                                                                    <span class="text-muted"><strong>Related To -</strong></span>
+                                                                                    <span class="adefault breakword no-margin" ng-click="activitylink(card.RelatedModel)">{{card.RelatedModel[1].EntityName||card.RelatedModel[0].EntityName}}</span>
+                                                                                </p>
+                                                                                <p class="breakword no-margin" ng-if="card.IsParticipant"><span class="text-muted"><strong>Participants -</strong></span><span ng-repeat="pname in card.ParticipantModel" ng-if="pname.Status=='Active' || pname.UserName== userName"> {{pname.Name}}{{$last ? '' : ', '}}</span></p>
+                                                                                <!--<p class="adefault breakword no-margin" ng-if="card.FileRepoModel!=0"><strong>Attachments - </strong><span ng-repeat="files in card.FileRepoModel" class="acolor">{{files.FileName}}{{$last ? '' : ', '}} </span></p>-->
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="activity-actions">
+                                                                            <!--<span class="rcolor mr-10 " ng-if="card.IsHighPriority"><i class="fa fa-exclamation"></i></span><strong class="text-left acolor" ng-click="cardclick(card)"> {{card.Subject}}  </strong>-->
+                                                                            <span class="mtm-10 badge" ng-if="card.ReplyCount != 0">  <i class="fa fa-reply"></i> {{card.ReplyCount}}</span>
+                                                                            <span class="actions">
+                                                                                <span class="badge mtm-10 min-right-space" ng-class="{'badge badge-danger': card.ActivityStatus==='Cancel', 'badge badge-success':card.ActivityStatus==='Completed'}">{{card.ActivityStatus}}</span>
+                                                                            </span>
+                                                                            <span ng-if="!card.ActivityStatus">
+                                                                                <i class="completed-icon tool-icons text-success" tooltip-placement="bottom" uib-tooltip="Completed" ng-click="activity_actions(card,'Completed')" ng-if="show_activity_actions('complete',card)"></i>
+                                                                                <!--<span ng-if="card.UserCreated==userName">-->
+                                                                                <i class="cancel-icon tool-icons rcolor min-right-space" tooltip-placement="bottom" uib-tooltip="Cancel" ng-click="activity_actions(card,'Cancel')" ng-if="show_activity_actions('cancel',card)"></i>
+                                                                                <!--</span>-->
+                                                                            </span>
+                                                                            <span class="min-right-space"><a class="pull-right mtm-4 ml-5" ng-click="activity_actions(card,'pin')"><i class="fa fa-thumb-tack f-20" tooltip-placement="bottom" uib-tooltip="Pinning" ng-class="{'fa-rotate-45':card.IsPinned}" ng-if="card.ActivityType=='Notes'"></i></a></span>
+                                                                            <span class="min-right-space delete" ng-click="activity_actions(card,'Delete')" ng-if="card.UserCreated==userName"><i class="delete-icon tool-icons mtm-4" tooltip-placement="bottom" uib-tooltip="Delete"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="activity-body">
+                                                                        <p class="adefault breakword ml-25" ng-if="card.Description"><strong>Description - </strong><span class="acolor">{{card.Description|activity_description}}</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="activity_related_model.html">
+        <div class="color-line"> </div>
+        <div class="modal-header">
+            <h4 class="ml-22">RelatedTo - {{related_title}}</h4>
+        </div>
+        <div class="modal-body clearfix pl-8 pr-10">
+            <div class="col-md-12" id="validationDivRel" ng-if="lookupmessage">
+                <div class="alert alert-danger alert-dismissable p-6">
+                    <p> <i class="alert-icon"></i>{{lookupmessage}} </p>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-6 col-xs-12" ng-repeat="relation in relations" id="relatedto" ng-click="change_index($index)">
+                <div class="col-xs-6 col-sm-6 col-md-4 pl-0 pr-0 custtop-22p">
+                    <select data-role="listview" class="form-control w100p mand" ng-options="type.Code as type.Code for type in relation.RelatedLU" ng-model="relation.EntityType" id="Relatedto" ng-change="reltion_change(relation.EntityType,$index)" data-validationtype="required">
+                        <option value="">Select Option</option>
+                    </select>
+                </div>
+                <div class="col-box col-md-8 pl-0 pr-0 lead-wraper">
+                    <div class="form-group input-group custtop-22p">
+                        <input kendo-auto-complete data-validationtype="required" id="nameAutocmptl{{$index}}" name="" class="form-control mand1 oppborder" ng-keyup="relation.EntityId='';load_source(relation.EntityType,$index)" ng-model="relation.EntityName" k-options="relation_options" ng-mousedown="change_index($index)" />
+                        <span ng-disabled="relations[0].EntityType!='Lead'||relations.length==2" class="input-group-addon btn btn-default abc1 text-center" ng-click="add_relation()" ng-if="$index==0"><i class="fa fa-plus pl-5 pr-5"></i></span>
+                        <span ng-disabled="addplus" class="input-group-addon btn btn-default abc1 text-center" ng-click="delete_relation($index)" ng-if="$index!=0"><i class="fa fa-minus pl-5 pr-5"></i></span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+                <button class="btn btn-save" ng-click="save()">Save<i class="save-icon"></i></button>
+                <button class="btn btn-cancel mr-15" ng-click="cancel()">Cancel<i class="cancel-icon"></i></button>
+        </div>
+</script>
+

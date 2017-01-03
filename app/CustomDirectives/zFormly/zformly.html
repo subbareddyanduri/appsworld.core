@@ -1,0 +1,42 @@
+﻿<section class="col-md-12 col-xs-12 col-sm-12" ng-include="options.formType">
+  
+</section>
+<script type="text/ng-template" id="normal">
+    <section ng-repeat="field in options.fields track by $index" class="fieldClass(options.columnsCount)" ng-include="field.type">
+        
+    </section>
+</script>
+<script type="text/ng-template" id="text">
+    <label for="{{field.labelName}}">{{field.labelName}}</label>
+    <input type="text" class="form-control" ng-model="model[field.Name]" data-validationtype="{{field.validationType}}" />
+</script>
+
+<script type="text/ng-template" id="datepckr">
+    <label for="{{field.labelName}}">{{field.labelName}}</label>
+    <div class="input-group">
+        <input type="text" show-button-bar="false" placeholder="DD/MM/YYYY" name="{{field.Name}}" id="txt{{field.Name}}" class="form-control k-textbox" datepicker-popup="{{format6}}" ng-model="model[field.Name]" is-open="datePicker.opened" datepicker-options="dateOptions" maxlength="10" />
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default p-8-15" ng-click="open($event,'opened')" ng-disabled="vm.isView"><i class="fa fa-calendar"></i></button>
+        </span>
+   </div>
+</script>
+
+<script type="text/ng-template" id="autcmptl">
+    <label for="{{field.labelName}}">{{field.labelName}}</label>
+    <input type="text" kendo-auto-complete
+           k-data-source="field.data"
+           k-data-text-field="field.valueProperty"
+           class="w100p" ng-model="model[field.Name]" />
+</script>
+
+<script type="text/ng-template" id="checkbox">
+    <label for="{{field.labelName}}">{{field.labelName}}</label>
+    <input type="checkbox" class="checkbox" ng-model="model[field.Name]" />
+</script>
+
+<script type="text/ng-template" id="select">
+    <label for="{{field.labelName}}">{{field.labelName}}</label>
+    <select ng-model="model[field.Name]" name="{{field.Name}}" id="ddl{{field.Name}}" class="form-control" ng-options="ddl.{{field.valueProperty}} as ddl.{{field.textProperty}} for ddl in field.data">
+        <option value="">Select Option</option>
+    </select>
+</script>

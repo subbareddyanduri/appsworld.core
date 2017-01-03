@@ -1,0 +1,58 @@
+﻿<div>
+    <br />
+    <h4 class="color-wrapper-border stripmand">GST Reporting</h4>
+
+    <div class="row">
+        <div class="form-group col-md-3 col-sm-6 col-xs-12 custaligntextbox custtop-22p" ng-if="showExRate">
+            <label>GST Exchange Rate</label>
+            <div class="input-group input-auto">
+                <div class="input-group-btn ">
+                    <input type="text" id="txtGstExchangeRate" ng-model="gstReporting.GSTExchangeRate" z-decimal max-places="5" max-decimal-places="10"  ng-disabled="disableExRate" name="" class="form-control first-input mand" placeholder="GST Exchange Rate" ng-change="exRateChange()" maxlength="16" data-validationtype="required" />
+                </div>
+                <div class="input-group-btn w-22p">
+                    <input type="text" id="gstBase" name="gstBase" ng-model="gstReporting.GSTExCurrency" class="form-control slct-right-border-radius not-allowed" placeholder="Currency" disabled />
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-3 col-sm-6 col-xs-12 custaligntextbox" ng-if="showDateRanges">
+            <label>GST Date Range</label>
+            <div class="input-group input-auto">
+                <div class="input-group-btn">
+                    <input type="text" id="gstDateRange" name="Date Range" value="{{gstReporting.GSTExDurationFrom|date:dateFormat}} - {{gstReporting.GSTExDurationTo|date:dateFormat}}" class="form-control first-input not-allowed" placeholder="GST Date Range" disabled />
+                </div>
+                <span class="input-group-addon pointer" ng-click="disableDateRanges?'':extractDateRanges()">
+                    <i class="fa fa-refresh btn-p"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 invoicing-grid pl-0 pr-0">
+        <div class="table-responsive">
+            <table st-table="accounts" class="st-table table table-custom table-strip table-bordered mt-10" ng-init="reverse=false" ng-show="addressObjects.length!==0">
+                <thead>
+                    <tr>
+                        <th>Tax Code</th>
+                        <th>Amount</th>
+                        <th>Tax Amount</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody class="tablecontainer addrbooksort" ng-model="invoiceDetails" id="invoiceGrid">
+                    <tr class="placeholder" ng-repeat="row in gstReportingSource">
+                        <td>{{row.TaxCode}}</td>
+                        <td class="text-right">{{row.Amount}}</td>
+                        <td class="text-right">{{row.TaxAmount}}</td>
+                        <td class="text-right">{{row.Total}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total:</strong></td>
+                        <td class="text-right">{{ gstTotals.TotalAmount}}</td>
+                        <td class="text-right">{{ gstTotals.TotalTaxAmount}}</td>
+                        <td class="text-right">{{ gstTotals.GrandTotal}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+﻿{
+    "ispopup": false,
+    "formname": "campign",
+    "isdetail": true,
+    "detailsource": "CampaignDetails",
+    "isView": true,
+    "displaycolumns": 4,
+    "savetype": "server",
+    "saveUrl": "",
+    "dataItem": null, 
+    "lookups": "",
+    "showSaveButton": true,
+    "detailOptions": {
+        "ispopup": true,
+        "formname": "campaigndetail",
+        "headding": "Campaign Details",
+        "showSaveButton": true,
+        "displaycolumns": 3,
+        "actiontype": "popup",
+        "rowclass": "",
+        "gridtype": "basicgrid",
+        "crud": { "a": true, "e": true, "dl": true, "d": false },
+        "saveUrl": null,
+        "savetype": "local",
+        "fields": [
+            { "name": "subheading", "type": "sub_heading", "lblname": "Campaign Details", "isgridfield": false, "Class": "col-md-12" },
+            { "name": "ItemName", "title": "Item Name", "tdclasses": "", "thclasses": "", "isgridfield": true, "type": "text", "datavalidationtype": "required", "clases": "mand" },
+            { "name": "BudgetedCost", "title": "Budgeted cost", "tdclasses": "", "thclasses": "", "isgridfield": true, "type": "text" },
+            { "name": "ActualCost", "title": "Actual cost", "tdclasses": "", "thclasses": "", "isgridfield": true, "type": "text" },
+            { "name": "Remarks", "title": "Remarks", "tdclasses": "", "thclasses": "", "isgridfield": false, "type": "textarea", "Class": "col-md-12" }
+        ],
+        "dataSource": [ ],
+        "dataItem": null
+    },
+    "fields": [
+        { "name": "Code", "type": "text", "lblname": "Code", "datavalidationtype": "required", "clases": "mand" },
+        {
+            "name": "Name",
+            "type": "text",
+            "lblname": "Name",
+            "datavalidationtype": "required",
+            "clases": "mand"
+        },
+        { "name": "StartDate", "type": "date", "lblname": "Start Date", "datavalidationtype": "date", "clases": "" },
+        { "name": "EndDate", "type": "date", "lblname": "End Date", "datavalidationtype": "date", "clases": "" },
+        { "name": "Description", "type": "textarea", "lblname": "Description", "datavalidationtype": "", "clases": "", "Class": "col-md-12" },
+        { "name": "CampaignType", "type": "select", "lblname": "Type", "datavalidationtype": "", "clases": "", "Class": "", "options": { "textfield": "Name", "valuefield": "Code", "ds": "CampaignTypeLU.Lookups" } },
+        { "name": "CampaignStatus", "type": "select", "lblname": "Status", "datavalidationtype": "", "clases": "", "Class": "", "options": { "textfield": "Name", "valuefield": "Code", "ds": "CampaignStatusLU.Lookups" } },
+        { "name": "CampaignOwner", "type": "select", "lblname": "Owner", "datavalidationtype": "", "clases": "", "Class": "", "options": { "textfield": "Name", "valuefield": "Code", "ds": "CampaignOwnerLU" } },
+        { "name": "ExpectedLeads", "type": "text", "lblname": "Expected leads", "datavalidationtype": "", "clases": "" },
+        { "name": "GeneratedLeads", "type": "text", "lblname": "Generated leads", "datavalidationtype": "", "clases": "", "disabled": true },
+        { "name": "Remarks", "type": "textarea", "lblname": "Remarks", "datavalidationtype": "", "clases": "", "Class": "col-md-12" },
+        { "name": "detailgrid", "type": "detailgrid", "Class": "col-md-12" }
+    ]
+}

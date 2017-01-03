@@ -1,0 +1,200 @@
+﻿<div class="row" view-mode="{{isView}}">
+    <div class="col-xs-12 col-sm-12 col-md-12 mt-15">
+        <div class="hpanel">
+            <form name="contactForm" id="contactForm" kendo-validator="validator" k-options="validationOptions" ng-submit="validate($event)" form-validate class="contact-directive k-content form-validation" role="form">
+                <div class="tile-header">
+                    <h4 class="color-wrapper-border">Contact</h4><label class="font-30" ng-show="contactObj.Status=='InActive'"><span class="badge bg-red">Inactive</span></label>
+                </div>
+
+                <div class="col-md-12" id="validationDiv" ng-show="isValidationRequired">
+                    <div class="alert alert-danger alert-dismissable alert-msg mt-0">
+                        <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true" hidden>
+                            &times;
+                        </button>
+                        <div ng-repeat="validate in validationMessages">
+                            <i class="alert-icon"></i>&nbsp;{{validate.validationText}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-2 col-sm-3 col-xs-6">
+                        <div class="profile_intro_hover">
+                            <p>
+                                <div class="cimg" id="img">
+                                </div>
+                            </p>
+                            <div class="caption">
+                                <div class="caption-text pbtn button" ng-hide="isView">
+                                    <input name="files" type="file" id="upload" class="mui-btn mui-btn-primary mui-btn-raised" />
+                                </div>
+                            </div>
+                        </div>
+                        <div id="fileDiv">
+                            <label>&nbsp;</label>
+                        </div>
+                        <label id="invalid"><!--<i class="fa fa-exclamation-circle"></i>-->&nbsp;Please Upload .PNG , .JPG , .JPEG Files Only </label>
+                    </div>
+                    <div class="col-md-10 col-sm-9 col-xs-12 pl-0 pr-0 ">
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12 custtop-22p nameh">
+                            <label>Name</label>
+                            <div class="col-md-12 input-group nameh">
+                                <div class="input-group-btn">
+                                    <select class="form-control w-159" ng-model="contactObj.Salutation" ng-options="dptSalutation.Name as dptSalutation.Code for dptSalutation in salutationdata" name="" id="dptSalutation">
+                                        <option>SelectOption</option>
+                                    </select>
+                                </div>
+                                <input kendo-auto-complete
+                                       k-options="contactLookUp" class="w100p auto-complete mand1 oppborder" name="" ng-model="contactObj.FirstName" maxlength="50" required ng-show="isContactAutoLookUp">
+                                <input type="text" class="form-control w100p oppborder auto-complete mand" name="" ng-model="contactObj.FirstName" maxlength="50" data-validationtype="required" ng-show="!isContactAutoLookUp">
+                            </div>
+                        </div>
+                        <div class="col-box col-md-12 col-sm-12 col-xs-12 form-group desheight" ng-if="isMultiDesignation">
+                            <label>Designation</label>
+                            <select name="Select Designation" kendo-multi-select
+                                    k-data-text-field="'Code'"
+                                    k-data-value-field="'Name'"
+                                    k-placeholder="'Select one or more Designation'"
+                                    k-value-primitive="true"
+                                    k-data-source="Designations"
+                                    id="ddlDesignation"
+                                    k-ng-model="contactObj.Designation" class="form-control w100p"></select>
+                        </div>
+                        <div class="col-box col-md-12 col-sm-12 col-xs-12 form-group" ng-if="!isMultiDesignation">
+                            <label>Designation</label>
+                            <input type="text" class="form-control w100p" placeholder="Designation" name="" ng-model="contactObj.Designation" maxlength="50">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-3 col-sm-6 col-xs-12 custtop-22p" ng-class="{'leadonView' : vm.isView}">
+                        <label>Date of Birth</label>
+                        <div class="input-group">
+                            <input type="text"
+                                   placeholder="{{dateplaceholder}}"
+                                   show-button-bar="false"
+                                   id="demo1"
+                                   class="form-control k-textbox"
+                                   uib-datepicker-popup="{{format}}"
+                                   close-on-date-selection="true"
+                                   ng-model="contactObj.DOB"
+                                   is-open="datePicker.DateOpen"
+                                   datepicker-options="datepickerOptions"
+                                   close-text="Close"
+                                   data-validationtype="date"
+                                   data-format="{{dateplaceholder}}"
+                                   .appendtobody="true" ng-disabled="isView" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-disabled="isView" ng-click="openCDatePicker($event,'DateOpen')"><i class="fa fa-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3 col-sm-6 col-xs-12 custtop-22p kheight">
+                        <label for="Country Of Residence">Country Of Residence</label>
+                        <input kendo-auto-complete k-data-text-field="'name'"  k-options="countries" class="w100p mand2" type="text" ng-model="contactObj.CountryOfResidence" id="Residence" data-validationtype="country" k-data-source="countryNames" />
+                    </div>
+                    <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-box">
+                            <label for="">Identification Type</label>
+
+                            <select class="form-control" ng-model="contactObj.IdType" ng-options="IdType.Id as IdType.Name for IdType in idTypes" name="IdType" id="IdType">
+                                <option value="">SelectOption</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-box">
+                            <label>Identification Number</label>
+                            <input type="text" name="" placeholder="Identification Number" maxlength="20" ng-model="contactObj.IdNo" data-validationtype="alphanumaric" id="Id" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12 col-xs-12 mt-10 reminder-vali form-group">
+                        <div class="checkbox checkbox-inline col-md-3 col-sm-6 col-xs-12 form-group" ng-show="isRemember">
+                            <input type="checkbox" id="chkPrimary" data-ng-model="contactObj.IsPrimaryContact">
+                            <label id="chkPrimary"> Primary Contact </label>
+                            <span ng-if="isPrimaryReq" class="z-invalid">is required</span>
+                        </div>
+                        <div class="checkbox checkbox-inline col-md-3 col-sm-4 col-xs-12" ng-show="isRemember">
+                            <input type="checkbox" id="chkRemainder" ng-model="contactObj.IsReminderReceipient" ng-checked="checkRemainderRecip()">
+                            <label for="Reminder Receipient"> Reminder Receipient </label>
+                            <span ng-if="isRemaindereReq" class="z-invalid ml-25">is required</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="leadInfo" ng-show="isMatters">
+                    <div class="row ">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <!--<span class="pull-left">Matters&nbsp;</span>-->
+                            <h4 class="pull-left color-wrapper-border">Matters</h4>
+                            <div class="checkbox checkbox-inline col-md-2 col-sm-4 col-xs-12 mt-0 form-group" ng-show="isRemember">
+                                <input type="checkbox" id="mattersCheck" ng-checked="isMattersChecked()" ng-model="matterCheck" name="" ng-click="checkAllMatters()">
+                                <label id="mattersCheck"> Select All</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<hr class="pt-10">-->
+                    <div class="row ">
+                        <div class="col-md-12 col-sm-12 col-xs-12 ml-radio form-group">
+                            <div class="checkbox checkbox-inline col-md-2 col-sm-6 col-xs-12" ng-repeat="row in matters">
+                    <input type="checkbox" id="{{row.Name}}" name="" ng-checked="selection.indexOf(row.Name) > -1" ng-click="toggleSelection(row.Name)" />
+                                <label>{{row.Code}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <span class="z-invalid" ng-show="isContactCMVT"><!--<i class="fa fa-exclamation-circle"></i>-->&nbsp;{{cntCMMValidationText}} </span>
+                <span ng-if="isCommunicationReq" class="z-invalid"><!--<i class="fa fa-exclamation-circle"></i>-->&nbsp;{{contactCMMVText}}</span>
+                <div class="color">
+                    <communication   json-string="contactObj.Communication" ng-model="contactObj.Communication" is-view="isView"></communication>
+                </div>
+                <address-module class="form-group" address-objects="contactObj.Addresses" is-view="isView" ng-model="contactObj.Addresses" address-type="'IndividualAddress'" ad-id="adId" ad-type="'VendorContact'"></address-module>
+                  <h4 class="color-wrapper-border"  ng-show="showContactAssociation">ASSOCIATIONS</h4>
+                <div class="table-responsive" ng-show="showContactAssociation">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr >
+                                <th>Company Name</th>
+                                <th>Company Type </th>
+                                <th>Company Status</th>
+                                <th>Contact Designation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="cnt in contactAssociations">
+                                <td>{{cnt.AccountName}}</td>
+                                <td>{{cnt.Lead}}</td>
+                                <td>{{cnt.CompanyStatus}}</td>
+                                <td>{{cnt.Designation}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row col-md-12 form-group">
+                    <div class="checkbox col-md-4 pull-left">
+                        <input name="agree" id="chkStatusAdd" type="checkbox" ng-checked="false" ng-model="contactStatus">
+                        <label for="Inactive">Inactive</label>
+                        <p class="help-block kenval">
+                            <span ng-show="step5.agree.$invalid &amp;&amp; !step5.agree.$pristine" class="text-red"><span class="k-icon k-warning"></span>&nbsp;You must Enable Checkbox</span>
+                        </p>
+                    </div> 
+                    </div>
+                    <div class="pull-right">
+                        <!-- SUBMIT BUTTON -->
+                        <button type="button" ng-if="isShowBack" ng-click="backToTab()" class="btn btn-back">Back<i class="back-icon"></i></button>
+                        <button type="submit" ng-hide="isContactView" class="btn btn-save" ng-click="saveCnt('add')">Save<i class="save-icon"></i></button>
+                        <button type="submit" class="btn btn-savenew" ng-hide="isEdit || isContactView" ng-click="saveCnt('new')">Save & New<i class="save-new-icon"></i></button>
+                        <button type="button" class="btn btn-cancel" ng-click="cancelContact()">Cancel<i class="cancel-icon"></i></button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+

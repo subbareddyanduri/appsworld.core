@@ -1,0 +1,34 @@
+<div id="navigation" ng-controller="navigationController as vm">
+    <ul side-navigation class="nav sidemenu-wrapper" id="side-menu">
+         <li ui-sref-active="active" ng-if="vm.selectedModuleName">
+            <a ui-sref="app"> <span class="nav-label">{{vm.selectedModuleName}}</span> </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="core.dashboard"> <i class="pe-7s-home core-dashboardicon" style="font-size: 22px;"></i> <span class="nav-label">Dashboard</span> <!-- <span class="label label-success pull-right">v.1</span> --> </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="analytics"> <i class="pe-7s-graph3 core-analyticicon" style="font-size: 22px;"></i> <span class="nav-label">Analytics</span><!-- <span class="label label-warning pull-right">NEW</span> --> </a>
+        </li>
+        <!--<li ui-sref-active="active">
+            <a ui-sref="checkdirectives"> <span class="nav-label">Check Point</span><span class="label label-warning pull-right">NEW</span> </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="core.sheduler"> <span class="nav-label">Sheduler</span></a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="core.zgrids"> <span class="nav-label">Z-grid</span></a>
+        </li>-->
+        <!--<li ui-sref-active="active">
+            <a ui-sref="core.reports"> <span class="nav-label">Reports</span></a>
+        </li>-->
+        <li ui-sref-active="active">
+            <a ui-sref="core.autoform"> <i class="pe-7s-file core-autoicon" style="font-size: 22px;"></i> <span class="nav-label">Auto Form</span></a>
+        </li>
+		<li ng-repeat="moduleAction in vm.moduleActions" ng-class="{active: vm.getClass(moduleAction.MasterUrl)}">
+			<a href="#"><span class="nav-label"><i class="{{moduleAction.FontAwesome}}"></i>{{moduleAction.GroupName}}</span><span class="fa arrow"></span> </a>
+			<ul class="nav nav-second-level" ng-class="{in: vm.getClass(moduleAction.MasterUrl)}">
+				<li ui-sref-active="active" ng-repeat="moduleDetails in moduleAction.List" ng-click="vm.setModuleDetailId(moduleDetails.Id)"><a ui-sref="{{moduleDetails.Url}}"><i class="{{moduleDetails.FontAwesome}}"></i>{{moduleDetails.Heading}}</a></li>
+			</ul>
+		</li>
+    </ul>
+</div>

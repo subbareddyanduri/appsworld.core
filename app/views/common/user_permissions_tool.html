@@ -1,0 +1,17 @@
+﻿<!-- desktop view permissions -->
+<ul class="list-unstyled list-inline text-right edit-tools-wrapper hidden-xs ng-scope">
+    <li ng-repeat="permission in permissions"><a href="" id="$index" tooltip-placement="top" uib-tooltip="{{permission.PermissionName}}" ng-click="permissionClick(permission.PermissionName)"><i class="{{permission.FontAwesomeClass}}"></i></a></li>
+    <li class="pull-right" ng-if="checkView()"><a href="" id="refresh" tooltip-placement="top" uib-tooltip="Refresh" ng-click="permissionClick('refresh')"><i class="refresh-icon tool-icons"></i></a></li>
+    <li class="pull-right" ng-if="checkView()"><a id="filters" href="" tooltip-placement="top" uib-tooltip="Clear Filters" ng-click="permissionClick('clearFilters')"><i class="filter-icon tool-icons"></i></a></li>
+    <li class="pull-right" ng-if="checkView()"><a id="saveLayOut" href="" tooltip-placement="top" uib-tooltip="Save Layout" ng-click="permissionClick('saveLayOut')"><i class="savelayout-icon tool-icons"></i></a></li>
+    <li class="pull-right" ng-if="checkView()"><a id="history" href="" tooltip-placement="top" uib-tooltip="View History" ng-click="permissionClick('viewHistory')"><i class="history-icon tool-icons"></i></a></li>
+</ul>
+<!-- mobile view permissions -->
+<ul class="list-unstyled list-inline text-right edit-tools-wrapper visible-xs ng-scope">
+    <li class="pull-left ml-15" ng-repeat="permission in permissions"><a href="" id="$index" ng-click="permissionClick(permission.PermissionName)"><i class="{{permission.FontAwesomeClass}} mbm-3"></i> <span>{{permission.PermissionName}}</span></a></li>
+    <li class="pull-left ml-15" ng-if="checkView()"><a href="" id="refresh" ng-click="permissionClick('refresh')"><i class="refresh-icon tool-icons mbm-3"></i> <span>Refresh</span></a></li>
+    <li class="pull-left ml-15" ng-if="checkView()"><a id="filters" ng-click="permissionClick('clearFilters')"><i class="filter-icon tool-icons mbm-3"></i> <span>Clear Filters<span></span></span></a></li>
+    <li class="pull-left ml-15" ng-if="checkView()"><a id="saveLayOut" ng-click="permissionClick('saveLayOut')"><i class="savelayout-icon tool-icons mbm-3"></i> <span>Save Layout</span></a></li>
+    <li class="pull-left ml-15" ng-if="checkView()"><a id="history" ng-click="permissionClick('viewHistory')"><i class="history-icon tool-icons mbm-3"></i> <span>View history</span></a></li>
+</ul>
+

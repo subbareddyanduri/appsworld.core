@@ -1,0 +1,92 @@
+<div class="row container-liquid " ng-controller="editprofileController as vm">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="hpanel">
+            <div class="panel-body">
+                <div class="acc-form">
+                    <form name="form1" id="form1" form-validate class="form-validation" role="form">
+                        <!--<form name="form1" id="form1" form-validate kendo-validator="vm.validator" k-options="vm.validationOptions" ng-submit="vm.validate($event)" class="k-content row form-validation" role="form">-->
+                        <div z-loader></div>
+                        <div class="col-md-12" id="validationDiv" ng-show="vm.isValidationRequired">
+                            <div class="alert alert-danger">
+                                <div ng-repeat="valText in vm.validationMessages">
+                                    <i class="alert-icon"></i>&nbsp;{{valText.validationText}}
+                                    <span style="padding-right:80px"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="tile-header dvd dvd-btm pt-0 pb-0">
+                            <span class="us"></span>
+                        </div>-->
+                        <div class="row">
+                            <div class="col-sm-3 col-xs-12 col-md-2 image-container">
+                                <div class="profile_intro_hover">
+                                    <p style="text-align:center;">
+                                        <div class="cimg" id="img"></div>
+                                    </p>
+                                    <div class="caption">
+                                        <div class="caption-text pbtn">
+                                            <input type="file" id="upload" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-col" id="fileDiv">
+                                    <label>&nbsp;</label>
+                                </div>
+                                <label id="invalid" style="color:red;"><i class="alert-icon"></i>&nbsp;Please Upload .PNG , .JPG , .JPEG Files Only </label>
+                            </div>
+                          <div class="">
+                         <div class="col-md-10 col-sm-12 col-xs-12">
+                             <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <label>Name</label>
+                                    <div class="form-group input-group editprofilew-112">
+                                        <div class="input-group-btn">
+                                            <select class="form-control w-159" ng-options="item.Code as item.Name for item in vm.salutetypes" id="pcategory" ng-model="vm.editprofileobj.Title">
+                                                <option>Select Option</option>
+                                            </select>
+                                        </div>
+                                        <input class="form-control mand" type="text" placeholder="Full Name" maxlength="50" ng-model="vm.editprofileobj.FirstName" disabled />
+                                    </div>
+                                </div>
+                        
+                               <div class="col-md-3 col-sm-12 col-xs-12">
+                                   <label>Short Code</label>  
+                                     <input class="form-control mand" type="text" placeholder="Short Code" maxlength="4" ng-model="vm.editprofileobj.ShortCode" disabled />                            
+                               </div>
+                        <div class="col-md-3 col-sm-12 col-md-4 form-group">
+                                    <label>Gender</label>
+                                     <input class="form-control" type="text"   ng-model="vm.editprofileobj.Gender" disabled />
+                                </div>
+                            </div>                                    
+                                     <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-6 form-group editprofilew-112">
+                                        <label for="Last Name">User Name</label>
+                                        <input type="text" id="Last Name" value="Zirafftech" class="form-control mand w-410" ng-model="vm.editprofileobj.Username" placeholder="User Name" disabled />
+                                    </div>
+                                     <div class="col-sm-12 col-sm-12 col-md-6 form-group">
+                                    <label>Nationality</label>
+                                    <input class="form-control" type="text"  ng-model="vm.editprofileobj.Nationality" disabled />
+                                </div>
+                            </div>
+                              </div>
+                       </div>
+                      </div>
+                       </div>
+                     
+                            <communication json-string="vm.jsonString" ng-model="vm.editprofileobj.Communication"></communication>
+
+                            <address-module address-objects="vm.editprofileobj.Addresses" is-view="vm.isView" ng-model="vm.editprofileobj.Addresses" ad-id="vm.adId" ad-type="'editprofile'"></address-module>
+                        
+                        <div class="col-md-12 f-rr">
+                            <br /><br />
+                            <div class="pull-right mrm-17">
+                                <button type="submit" class="btn btn-save" ng-show="vm.save" ng-click="vm.save('save')" ng-disabled="progress">Save<i class="save-icon"></i></button>
+                                <button type="submit" class="btn btn-cancel" ng-click="vm.cancelbtn()">Cancel<i class="cancel-icon"></i></button>
+                            </div>
+                        </div>
+                    </form>
+        </div>
+            </div>
+        </div>
+    </div>
+</div>

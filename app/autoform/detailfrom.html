@@ -1,0 +1,36 @@
+ <div ng-if="show_detail">
+	<autoform options="options" ddlchange="ddlchange(item,selected_value)" pop-save="save(dataItem)" pop-cancel="cancel()"></autoform>
+	<label for="">&nbsp;</label>
+</div>
+<div>	 
+	 <div class="custom-font">
+	    <h4 class="color-wrapper-border">{{options.headding}}
+	        <span class="ml-10 companyuserinfo">
+	            <a  tooltip-placement="top" uib-tooltip="Add" ng-if="options.crud['a']" ng-click="add_detail()"><i class="add-icon tool-icons"></i></a>
+	            <a  tooltip-placement="top" uib-tooltip="Edit" ng-if="options.crud['e']" ng-click="edit_detail()"><i class="edit-icon tool-icons"></i></a>
+	            <a  tooltip-placement="top" uib-tooltip="Delete" ng-if="options.crud['dl']" ng-click="delete_detail()"><i class="delete-icon tool-icons"></i></a>
+                <a tooltip-placement="top" uib-tooltip="Disabled" ng-if="options.crud['d']&&detailselection[0].RecordStatus!='Added'" ng-click="disable_detail()"><i class="disabled-icon tool-icons"></i></a>
+	         </span>
+	     </h4>
+	 </div>
+	 <div ng-include="options.gridtype"></div>
+</div>
+
+<script type="text/ng-template" id="basicgrid">
+	<table class="table table-stripped">
+	 	<thead>
+	 		<tr>
+	 			<th></th>
+	 			<th ng-repeat="thead in options.fields" ng-if="thead.isgridfield" class="{{thead.thclasses}}">{{thead.title}}</th>
+	 		</tr>
+	 	</thead>
+	 	<tbody>
+	 		<tr ng-repeat="dataItem in options.dataSource" class="{{options.rowclass}}" ng-if="dataItem.RecordStatus!='Deleted'">
+	 			<td><input type="checkbox" ng-checked="detailselection.indexOf(dataItem)>-1" ng-click="toggleDetailSelection(dataItem)"></td>
+	 			<td ng-repeat="tditem in options.fields" ng-if="tditem.isgridfield" class="{{tditem.tdclasses}}">{{dataItem[tditem.name]}}
+	 			</td>
+	 		</tr>
+	 	</tbody>
+	 </table>
+</script>
+<script type="text/ng-template" id="detailitem.html"></script>

@@ -1,0 +1,48 @@
+﻿
+<div id="communication" form-validate class="mt-15">
+    <h4 class="color-wrapper-border">
+        COMMUNICATION <span class="ml-10" ng-if="!isView">
+            <span class="z-invalid z-position" style="position: static;" ng-show="isContactCMVT"><!--<i class="fa fa-exclamation-circle"></i>-->{{cntCMMValidationText}}&nbsp;&nbsp; </span>
+            <a tooltip-placement="top" uib-tooltip="Add" ui-sref-active="active" ng-click="addCommunication()"><i class="add-icon tool-icons companyuserinfo mtm-1"></i></a>
+
+        </span>
+    </h4>
+
+
+    <div class="row communtype ">
+        <div class="col-md-4 form-group" ng-repeat="comm in communication track by $index" ng-if="$index/2===0" style="font-weight: 500; font-size: 14px;">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <select class="inherit form-control slct-border-radius w100px" ng-model="comm.key" ng-options="key.CodeValue as key.CodeValue for key in phoneTypes" ng-change="categoryChange(comm.key,comm.value)" ng-disabled="isView">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+
+                <input type="text" class="form-control"  maxlength="{{comm.key=='null'?'50':(comm.key=='Mobile'?20:(comm.key=='Phone'?20:50))}}" ng-keyup="categoryChange(comm.key,comm.value)" ng-model="comm.value" name="{{comm.key}}" id="{{'cmm_'+$index}}" placeholder="{{comm.key=='null'?'Select':comm.key}}" data-validationtype="{{abc(comm.key)}}" ng-blur="setComm()" ng-disabled="isView">
+                <span class="input-group-btn z-position">
+                    <button type="button" class="btn btn-default h-34" ng-click="deleteCommunication($index,communication)"  ng-disabled="communication.length===1" ng-hide="isview"><i class="fa fa-times" aria-hidden="true"></i></button>
+                </span>
+
+            </div>
+        </div>
+        <div class="col-md-4 form-group" ng-repeat="comm in communication track by $index" ng-if="$index/2!=0"  style="font-weight: 500; font-size: 14px;">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <select class="form-control  slct-border-radius w100px" ng-model="comm.key" ng-options="key.CodeValue as key.CodeValue for key in phoneTypes" ng-change="categoryChange(comm.key,comm.value)" ng-disabled="isView">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <!--data-validationtype="{{comm.key|lowercase}}"-->
+
+
+                <input type="text" class="form-control inherit" maxlength="{{comm.key=='null'?'50':(comm.key=='Mobile'?20:(comm.key=='Phone'?20:50))}}" ng-keyup="categoryChange(comm.key,comm.value)" ng-model="comm.value" name="{{comm.key}}" id="{{'cmm_'+$index}}" placeholder="{{comm.key=='null'?'Select':comm.key}}" data-validationtype="{{abc(comm.key)}}" ng-blur="setComm()" ng-disabled="isView">
+                <span class="input-group-btn z-position">
+                    <button type="button" class="btn btn-default h-34" ng-click="deleteCommunication($index,communication)" ng-disabled="communication.length===1"><i class="fa fa-times" aria-hidden="true"></i></button>
+                </span>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<html ng-app="appsworld">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page title set in pageTitle directive -->
+    <title page-title></title>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!--<link rel="shortcut icon" type="image/ico" href="favicon.ico" />-->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-notify/dist/angular-notify.min.css" />
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.css" />
+    <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
+    <link rel="stylesheet" href="bower_components/sweetalert/lib/sweet-alert.css" />
+    <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.min.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/summernote/dist/summernote.css" />
+    <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.min.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css" />
+    <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css" />
+    <link rel="stylesheet" href="bower_components/ui-select/dist/select.min.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" />
+    <link rel="stylesheet" href="bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" />
+    <link rel="stylesheet" href="bower_components/blueimp-gallery/css/blueimp-gallery.min.css" />
+    <link rel="stylesheet" href="bower_components/footable/css/footable.core.css" />
+    <link rel="stylesheet" href="bower_components/chartist/custom/chartist.css" />
+    <link href="common/autocomplete/angucomplete-alt.css" rel="stylesheet" />
+    <link rel="stylesheet" href="bower_components/CodeMirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="bower_components/c3/c3.min.css" />
+    <link rel="stylesheet" href="bower_components/clockpicker/dist/bootstrap-clockpicker.min.css" />
+    <link rel="stylesheet" href="bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="bower_components/ladda/dist/ladda-themeless.min.css" />
+
+
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css({.tmp,app}) styles/style.css -->
+
+    <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+    <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/helper.css" />
+    <!--<link href="styles/customcss.css" rel="stylesheet" />-->
+    <link rel="stylesheet" href="styles/style.css">
+
+    <link href="styles/customcss.css" rel="stylesheet" />
+    <!-- endbuild -->
+
+</head>
+
+<!-- Body -->
+<!-- appCtrl controller with serveral data used in theme on diferent view -->
+<!-- landing-scrollspy is directive for scrollspy used in landing page -->
+<body ng-controller="appCtrl" class="{{$state.current.data.specialClass}} fixed-navbar fixed-sidebar" landing-scrollspy tour backdrop="true">
+
+    <!-- Simple splash screen-->
+    <div class="splash"> <div class="color-line"></div><div class="splash-title intial_loading"><img src="content/images/logo-gif.gif"><p style="margin: 8px 0px 4px 110px;">AppsWorld is a big webapp who deals with all the module related to accountancy in one place. </p></div></div>
+    <!--[if lt IE 7]>
+    <p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- Page view wrapper -->
+    <div ui-view autoscroll="true" initial-settings>
+    </div>
+    <!-- build:js(.) scripts/vendor.js -->
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="bower_components/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/jquery-flot/jquery.flot.js"></script>
+    <script src="bower_components/jquery-flot/jquery.flot.resize.js"></script>
+    <script src="bower_components/jquery-flot/jquery.flot.pie.js"></script>
+    <script src="bower_components/flot.curvedlines/curvedLines.js"></script>
+    <script src="bower_components/jquery.flot.spline/index.js"></script>
+    <script src="bower_components/angular-flot/angular-flot.js"></script>
+    <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="bower_components/sweetalert/lib/sweet-alert.js"></script>
+    <script src="bower_components/iCheck/icheck.min.js"></script>
+    <script src="bower_components/sparkline/index.js"></script>
+    <script src="bower_components/chartjs/Chart.min.js"></script>
+    <script src="bower_components/angles/angles.js"></script>
+    <script src="bower_components/peity/jquery.peity.min.js"></script>
+    <script src="bower_components/angular-peity/angular-peity.js"></script>
+    <script src="bower_components/sweetalert/lib/sweet-alert.min.js"></script>
+    <script src="bower_components/angular-notify/dist/angular-notify.min.js"></script>
+    <script src="bower_components/chartjs/Chart.min.js"></script>
+    <script src="bower_components/angles/angles.js"></script>
+    <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
+    <script src="bower_components/angular-ui-map/ui-map.js"></script>
+    <script src="bower_components/moment/min/moment.min.js"></script>
+    <script src="bower_components/angular-momentjs/angular-momentjs.min.js"></script>
+    <script src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script src="bower_components/angular-ui-calendar/src/calendar.js"></script>
+    <script src="bower_components/summernote/dist/summernote.min.js"></script>
+    <script src="bower_components/angular-summernote/dist/angular-summernote.min.js"></script>
+    <script src="bower_components/ng-grid/ng-grid-2.0.14.min.js"></script>
+    <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.min.js"></script>
+    <script src="bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js"></script>
+    <script src="bower_components/angular-bootstrap-tour/dist/angular-bootstrap-tour.min.js"></script>
+    <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="bower_components/pdfmake/build/pdfmake.min.js"></script>
+    <script src="bower_components/pdfmake/build/vfs_fonts.js"></script>
+    <script src="bower_components/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="bower_components/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="bower_components/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.min.js"></script>
+    <script src="bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
+    <script src="bower_components/angular-xeditable/dist/js/xeditable.min.js"></script>
+    <script src="bower_components/ui-select/dist/select.min.js"></script>
+    <script src="bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+    <script src="bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js"></script>
+    <script src="bower_components/angular-ui-sortable/sortable.min.js"></script>
+    <script src="bower_components/footable/dist/footable.all.min.js"></script>
+    <script src="bower_components/angular-footable/dist/angular-footable.min.js"></script>
+    <script src="bower_components/chartist/dist/chartist.js"></script>
+    <script src="bower_components/angular-chartist.js/dist/angular-chartist.min.js"></script>
+    <script src="bower_components/CodeMirror/lib/codemirror.js"></script>
+    <script src="bower_components/CodeMirror/mode/javascript/javascript.js"></script>
+    <script src="bower_components/angular-ui-codemirror/ui-codemirror.min.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="bower_components/c3/c3.min.js"></script>
+    <script src="bower_components/c3-angular/c3-angular.min.js"></script>
+    <script src="bower_components/clockpicker/dist/bootstrap-clockpicker.min.js"></script>
+    <script src="bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="bower_components/ladda/dist/spin.min.js"></script>
+    <script src="bower_components/ladda/dist/ladda.min.js"></script>
+    <script src="bower_components/ladda/dist/ladda.jquery.min.js"></script>
+    <script src="bower_components/angular-ladda/dist/angular-ladda.min.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+    <script src="scripts/kendo.all.min.js"></script>
+    <!-- endbuild -->
+    <!--
+     You need to include this script on any page that has a Google Map.
+     When using Google Maps on your own site you MUST signup for your own API key at:
+     https://developers.google.com/maps/documentation/javascript/tutorial#api_key
+     After your sign up replace the key in the URL below..
+    -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="common/auth/oidc-token-manager.js"></script>
+    <script src="app_configuration.js"></script>
+    <script src="common/auth/auth.js"></script>
+    <script src="scripts/homer.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/config.js"></script>
+    <script src="companyselection/routeMediate.js"></script>
+    <script src="common/authService.js"></script>
+    <script src="mastergrid/contentController.js"></script>
+    <script src="common/module_linkingConfig.js"></script>
+    <script src="common/bootstrap/bootstrap.dialog.js"></script>
+    <script src="scripts/filters/props.js"></script>
+    <script src="scripts/directives/directives.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/factories/sweet-alert.js"></script>
+    <script src="scripts/controllers/alerts.js"></script>
+    <script src="scripts/controllers/modal.js"></script>
+    <script src="scripts/controllers/charts_flot.js"></script>
+    <script src="scripts/controllers/chartjs.js"></script>
+    <script src="scripts/controllers/inline.js"></script>
+    <script src="scripts/controllers/clock.js"></script>
+    <script src="scripts/controllers/timeline.js"></script>
+    <script src="scripts/controllers/googleMap.js"></script>
+    <script src="scripts/controllers/calendar.js"></script>
+    <script src="scripts/controllers/editor.js"></script>
+    <script src="scripts/controllers/grid.js"></script>
+    <script src="scripts/controllers/list.js"></script>
+    <script src="scripts/controllers/tour.js"></script>
+    <script src="scripts/controllers/datatables.js"></script>
+    <script src="scripts/controllers/wizard.js"></script>
+    <script src="scripts/controllers/forms.js"></script>
+    <script src="scripts/controllers/draggable.js"></script>
+    <script src="scripts/controllers/validation.js"></script>
+    <script src="scripts/controllers/chartist.js"></script>
+    <script src="scripts/controllers/codeEditor.js"></script>
+    <script src="scripts/controllers/loading.js"></script>
+    <script src="scripts/directives/touchSpin.js"></script>
+    <script src="common/bootstrap/bootstrap.dialog.js"></script>
+    <script src="framework/intial.settings.js"></script>
+    <!-- endbuild -->
+    <script src="common/defaultValues.js"></script>
+    <script src="common/config.js"></script>
+    <script src="common/serviceConfig.js"></script>
+    <script src="CustomDirectives/zBookMark.js"></script>
+    <script src="CustomDirectives/zLoader.js"></script>
+    <script src="mastergrid/masterGridDataContext.js"></script>
+    <script src="common/sub_actions.js"></script>
+    <script src="mastergrid/masterGrid.js"></script>
+    <script src="common/commonService.js"></script>
+    <script src="common/autocomplete/angucomplete-alt.js"></script>
+    <script src="common/headerController.js"></script>
+    <script src="common/navigationController.js"></script>
+    <script src="CustomDirectives/addressBook/addressBookDataContext.js"></script>
+    <script src="CustomDirectives/addressBook/addressConfig.js"></script>
+    <script src="CustomDirectives/addressBook/addressGrid.js"></script>
+    <script src="CustomDirectives/addressBook/addressModel.js"></script>
+    <script src="CustomDirectives/addressBook/communication.js"></script>
+
+    <script src="CustomDirectives/contactDirective/contactDirectiveFactory.js"></script>
+    <script src="CustomDirectives/contactDirective/contactDirective.js"></script>
+    <script src="CustomDirectives/contactGridDirective/contactGridFactory.js"></script>
+    <script src="CustomDirectives/contactGridDirective/contactGrid.js"></script>
+    <script src="CustomDirectives/dropdownMultiselector/multiselectdirective.js"></script>
+    <script src="CustomDirectives/inputDirectives/inputdirectives.js"></script>
+    <script src="CustomDirectives/Z_Validations.js"></script>
+    <script src="common_modules_filters/genericfilters.js"></script>
+    <script src="common/gridColumns.js"></script>
+    <script src="framework/framework.js"></script>
+    <script src="framework/controls/z_autocomplete.js"></script>
+    <script src="framework/navigation/navigation.js"></script>
+    <script src="framework/gstReporting/gstreporting.js"></script>
+    <!-- Z.Grids -->
+    <script src="CustomDirectives/zGrids/zgridContext.js"></script>
+    <script src="CustomDirectives/zGrids/zgrid.js"></script>
+    <script src="CustomDirectives/zGrids/grid_demo_controller.js"></script>
+    <!-- Sheduler -->
+    <script src="sheduler/shedularContext.js"></script>
+    <script src="sheduler/shedulerController.js"></script>
+    <!-- Rports -->
+    <script src="Reports/reportsContext.js"></script>
+    <script src="Reports/reportsController.js"></script>
+    <!-- Auto-Form -->
+
+    <script src="autoform/autoform.js"></script>
+    <script src="autoform/autoformDirective.js"></script>
+    <script src="autoform/detailform.js"></script>
+    <script src="masterform/masterformurls.js"></script>
+    <script src="masterform/masterform.js"></script>
+    <!--dashBoardController-->
+    <script src="common/dashboardController.js"></script>
+
+    <!--employee profile-->
+    <script src="employeeprofile/employeeprofileFactory.js"></script>
+    <script src="employeeprofile/employeeprofileController.js"></script>
+
+    <!-- Sheduler -->
+    <script src="framework/scheduler/scheduler_context.js"></script>
+    <script src="framework/scheduler/scheduler_directive.js"></script>
+
+    <!-- User Permissions Tool -->
+    <script src="framework/userPermissions/user.permisions.toolContext.js"></script>
+    <script src="framework/userPermissions/user.permissions.tool.js"></script>
+    <!--Edit Profile--->
+    <script src="userProfile/editProfileContext.js"></script>
+    <script src="userProfile/editProfileController.js"></script>
+
+    <!--Notifications-->
+    <script src="notification/notification.js"></script>
+    <script src="framework/blades/bladesContext.js"></script>
+    <script src="framework/blades/bladesController.js"></script>
+
+</body>
+</html>
+<style>
+    .initialsettings {
+        -webkit-filter: blur(5px);
+        -moz-filter: blur(5px);
+        -o-filter: blur(5px);
+        -ms-filter: blur(5px);
+        filter: blur(5px);
+        /* width: 100px; */
+        /* height: 100px; */
+        background-color: #ccc;
+        background-image: azure;
+        /* display: table-column-group; */
+        pointer-events: none;
+        opacity: 0.5;
+        background: #CCC;
+        /*background:url(content/images/logo-gif.gif);
+    content: "Joe's Task:";*/
+    }
+    .intial_loading {
+        margin-top: -71%;
+        filter: blur(0);
+        position: fixed;
+        left: 30%;
+    }
+    #z-autocomplete ul li:hover{
+    background-color:rgba(158, 158, 158, 0.26) !important;
+    padding: 5px 0px 6px 12px;
+     margin-left: -12px;
+     margin-right: -10px;
+    }
+</style>

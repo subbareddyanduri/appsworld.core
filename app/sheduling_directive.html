@@ -1,0 +1,124 @@
+﻿<div class="hpanel">
+    <div class="panel-heading">
+        <h5>{{options.title}}</h5>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="Date">Select Date</label>
+                <input type="date" ng-model="date" class="form-control" ng-change="loadheads()" />
+            </div>
+            <div class="col-md-6">
+                <label for="Date">Shedule/Time-Logging</label>
+                <select ng-model="type" ng-change="type_change()" class="form-control">
+                    <option value="">SelectOption</option>
+                    <option value="sheduling">Sheduling</option>
+                    <option value="timelog">Time-Logging</option>
+                </select>
+            </div>
+        </div>
+        <!--<div class="row">
+            <label for="users">Select Users</label>
+            <input type="text" kendo-multi-select k-data-source="[{Name:'SubbaReddy',Id:1}]" k-data-value-field="'Id'" k-data-text-field="'Name'" k-ng-model="selectedusers" class="form-control" />
+        </div>-->
+        <hr />
+        <div class="row col-md-12 sheduling">
+            <table border="1">
+                <thead>
+                    <tr ng-include="options.type"></tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="user in options.users" ng-if="date">
+                        <td style="background-color: #87CEEB; text-align: center; "><strong>{{user.Name}}</strong></td>
+                        <td ng-repeat="date in sheads" ng-init="total=get_totaltime(date,user)" ng-class="getcolor(total)" ng-include="type" ng-dblclick=""></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+
+    </div>
+</div>
+<style>
+    .sheduling .col-md-2 {
+        width: 7.666667% !important;
+    }
+
+    .green {
+        background-color: lightgreen;
+    }
+
+    .red {
+        background-color: #FF6347 !important;
+    }
+
+    .orange {
+        background-color: lightyellow !important;
+    }
+</style>
+<script type="text/ng-template" id="week">
+    <th class="col-md-2"></th>
+    <th ng-repeat="shead in sheads" class="col-md-2" ng-controller="create_task" ng-dblclick="open('lg')">{{shead.date|date:'dd/MM/yyyy'}}<br />({{shead.day}})</th>
+</script>
+<script type="text/ng-template" id="month">
+    <th class="col-md-2"></th>
+    <th ng-repeat="shead in sheads" class="col-md-2" ng-controller="create_task" ng-dblclick="open('lg')">{{shead.fromdate|date:'dd/MM/yyyy'}} - {{shead.todate|date:'dd/MM/yyyy'}}<br /> (Week-{{shead.week}})</th>
+</script>
+<script type="text/ng-template" id="timelog">
+    <ul style="padding:0px">
+        <li ng-repeat="task in usertasks(date,user)" ng-controller="create_task" ng-dblclick="open('lg',task)">
+            <strong>{{task.TaskId}}</strong> - {{task.LoggedTime}}
+        </li>
+        <hr />
+        <li>
+            Total spent: {{total}} hrs
+        </li>
+    </ul>
+</script>
+<script type="text/ng-template" id="sheduling">
+    <ul style="padding:0px">
+        <li ng-repeat="task in usertasks(date,user)" ng-controller="create_task" ng-dblclick="open('lg',task)">
+            <strong>{{task.TaskId}}</strong> <br /> {{task.Name}}
+        </li>
+    </ul>
+</script>
+<script type="text/ng-template" id="create_task.html">
+    <div class="hpanel">
+        <div class="panel-heading">
+            <h5>Create Task</h5>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="Name">Name </label>
+                    <input type="text" class="form-control" ng-model="task.Name" />
+                </div>
+                <div class="col-md-6">
+                    <label for="date">Date </label>
+                    <input type="date" class="form-control" ng-model="task.Date" />
+                </div>
+                <div class="col-md-6">
+                    <label for="EstimatedTime">Estimated Time </label>
+                    <input type="number" class="form-control" ng-model="task.EstimatedTime" />
+                </div>
+                <div class="col-md-6">
+                    <label for="user">Username </label>
+                    <input type="text" class="form-control" ng-model="task.user" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="description">Description</label>
+                    <textarea ng-model="task.Description" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer h-51">
+            <div class="pull-right">
+                <button class="btn btn-save" ng-click="save()">SAVE<i class="save-icon"></i></button>
+                <button class="btn btn-cancel mr-15" ng-click="cancel()">CANCEL<i class="cancel-icon"></i></button>
+            </div>
+        </div>
+    </div>
+</script>

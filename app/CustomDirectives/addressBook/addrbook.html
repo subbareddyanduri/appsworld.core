@@ -1,0 +1,228 @@
+﻿<div>
+    <div class="row">
+        <div class="tile-header col-md-12">
+            <div class="custom-font">
+                <h4 class="pull-left color-wrapper-border">ADDRESSES</h4>
+                <div class="col-md-12" id="validationDiv" ng-show="isValidationRequired">
+                    <div class="alert alert-danger alert-dismissable alert-msg">
+                        <p ng-repeat="vms in validationMessages">
+                            <i class="alert-icon"></i>&nbsp;{{vms}}
+                        </p>
+                    </div>
+                </div>
+                <span class="ml-10 companyuserinfo" ng-if="!isView">
+                    <a tooltip-placement="top" uib-tooltip="Add" ui-sref-active="active" ng-controller="addressModel" ng-click="open('md',addtype,addid,'new',addressObjects)"><i class="add-icon tool-icons"></i></a>
+                    <a ng-if="addressObjects.length!==0" tooltip-placement="top" uib-tooltip="Edit" ng-controller="addressModel" ng-click="open('md',addtype,addid,'edit',addressObjects,selection);editAddress()"><i class="edit-icon tool-icons"> </i></a>
+                    <a tooltip-placement="top" uib-tooltip="Delete" ng-if="addressObjects.length!==0" ng-click="deleteAddress()"><i class="delete-icon tool-icons"></i></a>
+                </span>
+            </div>
+           
+        </div>
+    </div>
+
+    <!--<div class="pt-7 pb-20" style="text-align: center;">-->
+    <div>
+      <!--   <span ng-if="addressObjects.length===0"><i>No Addresses Available</i></span> -->
+                 <table st-table="accounts" ng-if="addressObjects.length===0" class="st-table table table-strip table-custom table-bordered table-responsive">
+            <thead class="thead-color">
+                <tr>
+                    <th class="col-md-2">
+                        <span class="">Address Type</span>
+                    </th>
+                    <th class="col-md-9">
+                        <span> Address</span>
+                </th>
+                </tr>
+            </thead>
+            <tbody>
+               <th style="text-align:center; font-weight: 400;" colspan="2">No Addresses Available</th>
+            </tbody>
+        </table>
+        <table st-table="accounts" class="st-table table table-bordered table-custom table-striped table-responsive" ng-init="reverse=false" ng-if="addressObjects.length!==0">
+            <thead>
+                <tr>
+                    <th class="col-md-1"></th>
+                    <th class="col-md-2">
+                        Address Type
+                    </th>
+                    <th class="col-md-9">
+                        Address
+                    </th>
+                </tr>
+            </thead>
+            <tbody ui-sortable="" class="tablecontainer addrbooksort" ng-model="addressObjects">
+                <tr class="gridlist placeholder" ng-repeat="row in addressObjects">
+                    <td class="col-md-1 checkbox" style="width: 0.333333%; padding: 10px 0px 0px 52px !important;">
+                        <input type="checkbox" id="{{row.Id}}" class="checkbox" ng-checked="selection.indexOf(row) > -1" ng-click="toggleSelection(row)">
+                        <label for="{{row.Id}}"></label>
+                    </td>
+                    <td class="col-md-2 text-left">{{row.AddSectionType}}</td>
+                    <td class="col-md-9 text-left">
+                        <label ng-if="row.AddressBook.UnitNo">{{row.AddressBook.UnitNo+' '}}</label>
+                        <label ng-if="row.AddressBook.BlockHouseNo">{{row.AddressBook.BlockHouseNo+' '}}</label>
+                        <label ng-if="row.AddressBook.BuildingEstate">{{row.AddressBook.BuildingEstate+' '}}</label>
+                        <label ng-if="row.AddressBook.Street">{{row.AddressBook.Street+' '}}</label>
+                        <label ng-if="row.AddressBook.City">{{row.AddressBook.City+' '}}</label>
+                        <label ng-if="row.AddressBook.Country">{{row.AddressBook.Country+' '}}</label>
+                        <label ng-if="row.AddressBook.PostalCode">{{row.AddressBook.PostalCode}}</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+</div>
+<script type="text/ng-template" id="myAddrBook.html">
+    <div class="tile acc-form cust1">
+        <div class="color-line"> </div> 
+        <div class="modal-header">
+            <h3 class="custom-font ml-29">{{type==='new'?'Add':'Edit'}} Address</h3>
+        </div>
+        <div class="col-md-12" id="validationDiv" ng-show="isValidationRequired">
+            <div class="alert alert-danger alert-dismissable mt-5 p-6">
+                <p ng-repeat="vms in validationMessages">
+                    <i class="alert-icon"></i>&nbsp;{{vms}}
+                </p>
+            </div>
+        </div>
+        <div class="modal-body">
+            <form name="addrBook" id="addrBook" form-validate role="form">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <label for="addtype" class="required">Address Type</label>
+                         <select  class="form-control mand" ng-options="type.Code as type.Name for type in addressTypeLU" ng-model="addressObject.AddSectionType" id="addType" data-validationtype="required">
+                        <option value="">Select Option</option>
+                    </select>
+                        <!--<select id="addType" ng-model="addressObject.AddSectionType" class="form-control mand"
+                                data-validationtype="required">
+                            <option value="">Select Option</option>
+                            <option value="Registered address">Registered Address</option>
+                            <option value="Mailling address">Mailing Address</option>
+                        </select>-->
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+                        <label for="addsectopntype" class="required">Local / Foreign Address</label>
+                        <select id="addSectionType" ng-model="addressObject.AddressBook.IsLocal" class="form-control mand w100p" data-validationtype="required" ng-change="addressSectionChanged(addressObject.AddressBook.IsLocal)">
+                            <!--<option>Select Option</option>-->
+                            <option value="localaddress">Local Address</option>
+                            <option value="foreignaddress">Foreign Address</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row pl-0 pr-0" ng-if="addressObject.AddressBook.IsLocal==='localaddress'">
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12" ng-if="addressObject.AddressBook.IsLocal==='foreignaddress'">
+                        <div class="box-col">
+                            <label for="building" class="required">Building</label>
+                            <input type="text" id="building" name="Building" ng-model="addressObject.AddressBook.BuildingEstate" class="k-textbox w100p" placeholder="Building" ng-disabled="isDisableRequired" />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12 lookupfont" ng-if="addressObject.AddressBook.IsLocal==='localaddress'">
+                        <label for="postalcode" class="required">Postal Code</label>
+                        <span class="z-invalid" style="position: absolute; padding: 3px;" ng-show="isRpostval"><!--<i class="fa fa-exclamation-circle"></i>-->&nbsp;Invalid Postal Code</span>
+                        <div angucomplete-alt id="postalAutocmptl"
+                             placeholder="Postal Code"
+                             pause="10"
+                             initial-value="addressObject.AddressBook.PostalCode"
+                             selected-object="selectedObject"
+                             remote-url="{{elasticSearchApi}}"
+                             title-field="PostalCode"
+                             maxlength="6"
+                             description-field="StreetName" ng-keydown="acceptInput($event)" ng-keyup="postalCodeChanged()" focus-out="postalVal('Rlocal')"></div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <label id="unitno">Unit No</label>
+                        <input type="text" name="UnitNo" id="UnitNo" ng-model="addressObject.AddressBook.UnitNo" class="form-control" placeholder="Unit No" />
+                    </div>
+                </div>
+                <div class="row" ng-if="addressObject.AddressBook.IsLocal==='localaddress'">
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <div class="box-col">
+                            <label for="blockno" class="required">{{addressObject.AddressBook.IsLocal==='localaddress'?'Block/House No':'Dependent Locality'}}</label>
+                            <input type="text" id="blockno" ng-model="addressObject.AddressBook.BlockHouseNo" name="Block No" class="form-control" placeholder="{{addressObject.AddressBook.IsLocal==='localaddress'?'Block/House No':'Dependent Locality'}}" ng-disabled="isDisableRequired" />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <label for="unitno" class="required">Street</label>
+                        <input type="text" id="street" name="Street" ng-model="addressObject.AddressBook.Street" class="form-control" placeholder="Street" ng-disabled="isDisableRequired" />
+                    </div>
+                </div>
+                <div class="row" ng-if="addressObject.AddressBook.IsLocal==='localaddress'">
+                    <div class="mb-5 col-md-6 col-sm-6 col-xs-12">
+                        <label for="state" class="required">{{addressObject.AddressBook.IsLocal==='localaddress'?'State':'State/Province'}}</label>
+                        <input type="text" id="state" name="State" ng-model="addressObject.AddressBook.State" placeholder="{{addressObject.AddressBook.IsLocal==='localaddress'?'State':'State/Province'}}" class="form-control" ng-disabled="isDisableRequired" />
+                    </div>
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <label for="city" class="required">City</label>
+                        <input type="text" id="city" name="City" ng-model="addressObject.AddressBook.City" class="form-control" placeholder="City" maxlength="30" ng-disabled="isDisableRequired" />
+                    </div>
+                </div>
+                <div class="row" ng-if="addressObject.AddressBook.IsLocal==='foreignaddress'">
+                    <div class="mb-5 col-md-12 col-sm-12 col-xs-12">
+                        <label id="unitno">AddressLine 1</label>
+                        <input type="text" name="UnitNo" id="UnitNo" ng-model="addressObject.AddressBook.UnitNo" class="form-control" maxlength="50" placeholder="AddressLine 1" />
+                    </div>
+                </div>
+                <div class="row" ng-if="addressObject.AddressBook.IsLocal==='foreignaddress'">
+                    <div class="mb-5 col-md-12 col-sm-12 col-xs-12 mt-15">
+                        <label for="unitno" class="required">AddressLine 2</label>
+                        <input type="text" id="street" name="Street" ng-model="addressObject.AddressBook.Street" class="form-control" maxlength="50" placeholder="AddressLine 2"  />
+                    </div>
+                </div>
+                <div class="row" ng-if="addressObject.AddressBook.IsLocal==='foreignaddress'">
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12 mt-15">
+                        <label for="city" class="required">City</label>
+                        <input type="text" id="city" name="City" ng-model="addressObject.AddressBook.City" class="form-control" maxlength="30" placeholder="City" />
+                    </div>
+                    <div class="mb-5 col-md-6 col-sm-6 col-xs-12 mt-15">
+                        <label for="state">State/Province/Region</label>
+                        <input type="text" id="state" name="State" ng-model="addressObject.AddressBook.State" placeholder="{{addressObject.AddressBook.IsLocal==='localaddress'?'State':'State/Province'}}" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12 customdd" ng-class="{'inputonView' : isView}">
+
+                        <div class="class=" box-col" ng-if="addressObject.AddressBook.IsLocal==='localaddress'">
+                            <label for="building" class="required">Building</label>
+                            <input type="text" id="building" name="Building" ng-model="addressObject.AddressBook.BuildingEstate" class="form-control" placeholder="Building" ng-disabled="isDisableRequired" />
+                        </div>
+                        <div ng-if="addressObject.AddressBook.IsLocal==='foreignaddress'">
+                            <label for="postalcode" class="required">Postal Code</label>
+                            <input type="text"
+                                   id="mfpostalcode" name="SFPostalCode" maxlength="10" ng-model="addressObject.AddressBook.PostalCode" class="form-control" placeholder="Postal Code" />
+                        </div>
+                    </div>
+                    <div class="mb-5 col-md-6 col-sm-6 col-xs-12 auto">
+                        <div ng-if="addressObject.AddressBook.IsLocal==='localaddress'">
+                            <label for="search" class="required">Country</label>
+                            <input type="text" id="search" name="Country" ng-model="addressObject.AddressBook.Country" placeholder="Country" ng-disabled="addressObject.AddressBook.IsLocal==='localaddress'" class="form-control mand" />
+                            <span class="k-invalid-msg" data-for="search"></span>
+                        </div>
+                        <div ng-if="addressObject.AddressBook.IsLocal==='foreignaddress'" class="custtop-22p kheight">
+                            <label for="Country" class="required">Country</label>
+                            <!--<span class="manualvalidation mtm-5 pull-right" ng-show="servicecodeerror">{{servicecodemsg}}</span>-->
+                            <input kendo-auto-complete
+                                   k-data-text-field="'name'"
+                                   k-data-source="Countries"
+                                   k-options="countries"
+                                   ng-model="addressObject.AddressBook.Country" type="text" placeholder="Country" data-validationtype="required,country" id="Country" name="Country" ng-class="{'mand':addressObject.AddressBook.IsLocal==='foreignaddress'}" class="form-control mand1 auto-complete errorborder" style="border-bottom:1px solid grey;" 
+                                    />
+                        </div>
+                    </div>
+                </div>
+                <!--</div>-->
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-save " ng-click="save()">Save<i class="save-icon"></i></button>
+            <button type="button" class="btn btn-cancel" data-dismiss="modal" ng-click="cancel()">Cancel<i class="cancel-icon"></i></button>
+        </div>
+    </div>
+</script>
+
+
+

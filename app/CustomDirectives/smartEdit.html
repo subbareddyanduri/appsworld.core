@@ -1,0 +1,49 @@
+﻿
+<a class="pull-right" ng-click="addItem()">Add New</a>
+<table st-table="data" class="table table-striped">
+    <thead>
+        <tr>
+            <th ng-repeat="th in options.fields">{{th.title}}</th>
+            <th>Action</th>            
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in data" ng-click="rowSelected($index)" ng-include="getTemplate($index)" style="cursor:pointer">
+                     
+        </tr>
+    </tbody>
+</table>
+<script type="text/ng-template" id="display">
+    <td ng-repeat="tdContent in options.fields">{{row[tdContent.lblDisplay]||row[tdContent.Name]}}</td>
+    <td>
+        <span class="fa fa-times" ng-click="deleteItem($index)" style="color:red"></span>
+    </td>
+</script>
+<script type="text/ng-template" id="edit">
+    <td ng-repeat="tdContent in options.fields" ng-include="getEditControl(tdContent.inputControl)">
+
+    </td>
+    <td>
+        <span class="fa fa-times" ng-click="deleteItem($index)" style="color:red"></span>
+    </td>
+</script>
+<script type="text/ng-template" id="text">
+    <input type="text" ng-model="row[tdContent.Name]" class="form-control height" id="txt{{row[tdContent.Name]}}" placeholder="{{tdContent.title}}" ng-change="inputControlValueChanged(row,row[tdContent.Name],tdContent.Name,'text')" />
+</script>
+<script type="text/ng-template" id="checkbox">
+    <input type="checkbox" ng-model="row[tdContent.Name]" class="form-control height" id="txt{{row[tdContent.Name]}}" placeholder="{{tdContent.title}}" ng-change="inputControlValueChanged(row,row[tdContent.Name],tdContent.Name,'text')" />
+</script>
+<script type="text/ng-template" id="file">
+    <input type="file" ng-model="row[tdContent.Name]" class="form-control height" id="txt{{row[tdContent.Name]}}" placeholder="{{tdContent.title}}" ng-change="inputControlValueChanged(row,row[tdContent.Name],tdContent.Name,'text')" />
+</script>
+<script type="text/ng-template" id="select">  
+    <select ng-model="row[tdContent.Name]" class="form-control" ng-options="ddl.{{tdContent.inputControlOptions.valueProperty}} as ddl.{{tdContent.inputControlOptions.textProperty}} for ddl in tdContent.inputControlOptions.data" ng-change="inputControlValueChanged(row,ddl,tdContent.Name,'ddl',row[tdContent.Name],tdContent.inputControlOptions.data,tdContent.inputControlOptions.valueProperty)">
+        <option value="">SelectOption</option>
+    </select>
+</script>
+
+<script type="text/ng-template" id="datepicker">
+    <input type="text" show-button-bar="false" data-format="DD/MM/YYYY" placeholder="DD/MM/YYYY" name="Date Of Birth" id="dpckrDOB" class="form-control height" uib-datepicker-popup="{{format6}}" ng-model="row[tdContent.Name]" is-open="datePicker[tdContent.inputControlOptions.isOpen]" datepicker-options="dateOptions" ng-click="open($event,tdContent.inputControlOptions.isOpen)" ng-change="inputControlValueChanged(row,row[tdContent.Name],tdContent.Name,'text')" />
+   
+</script>
+

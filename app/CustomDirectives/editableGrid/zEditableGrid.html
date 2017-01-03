@@ -1,0 +1,114 @@
+﻿<!--This grid is used in Beancursor---receipt,vendorbill,JV etc-->
+<div class="row">
+    <div class="col-md-12">
+        <!--<div class="table-responsive">-->
+        <form id="zEditableGrid" name="{{options.formName}}">
+            <div class="table-responsive" style="overflow-x:scroll;overflow-y:hidden;">
+                <table class="col-md-12 st-table table table-custom table-strip  table-bordered  smart-table-grid scroll mb-0 mt-35 w-2010">
+                    <div class="btn-group position-absolute" ng-if="showAddButton">
+                        <button type="button" class="btn btn-primary br-3" data-toggle="dropdown">
+                            <i class="fa fa-plus"></i>&nbsp;&nbsp;
+                            {{addButtonTitle}} <span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu" role="menu" style="overflow-y:auto;">
+                            <li><a ng-click="addItem(1)">1</a></li>
+                            <li><a ng-click="addItem(5)">5</a></li>
+                            <li><a ng-click="addItem(10)">10</a></li>
+                        </ul>
+                    </div>
+
+                    <thead>
+                        <tr>
+                            <th ng-repeat="th in options.fields" class="" ng-if="th.inputControlOptions.isVisible">
+                                {{th.title}}
+                            </th>
+                            <th class="edgth" ng-if="!isView&&isshowaction"><!--Action--></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--ng-class="{'lightgray':$index%2!=0}"-->
+                        <tr ng-repeat="item in data" ng-if="item.RecordStatus!='Deleted'" ng-include="getTemplate($index)" ng-click="selectedRow($index)"></tr>
+                        <tr ng-if="options.footerTemplateOptions.ColumnTotals.required" class="edgth">
+                            <td ng-repeat="td in options.fields" ng-if="td.inputControlOptions.isVisible" class="alignright pr-8" ng-include="getFooterTemplate(td.Name)"></td>
+                            <td ng-if="!isView&&isshowaction"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <!--</div>-->
+
+    </div>
+</div>
+
+<script type="text/ng-template" id="disp">
+    <td ng-repeat="td in options.fields" ng-if="td.inputControlOptions.isVisible" style="cursor:pointer" text-align="left">
+        <label class="{{td.Class}} breakword pr-8" ng-if="!td.template">{{item[td.lblDisplay]||item[td.Name]}}</label>
+        <div ng-if="td.template" ng-include="setTemplate(td)"></div>
+    </td>
+
+    <td class="text-right w60" ng-if="!isView&&isshowaction">
+        <!--<button type="button" ng-click="deleteItem($index)" class="mui-btn btn-sm btn-danger mt-0 text-white pl-15 pr-15" ng-if="!isView&&isshowaction">
+            <i class="fa fa-times">
+            </i>
+        </button>-->
+        <span class="smart-grid-actions mt-10 ">
+            <span class="tool-icons edit-icon" tooltip-placement="top" uib-tooltip="Edit"></span>
+            <span class="tool-icons delete-icon" tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteItem($index)"></span>
+        </span>
+    </td>
+
+
+</script>
+
+<script type="text/ng-template" id="edit">
+    <td ng-repeat="td in options.fields" ng-if="td.inputControlOptions.isVisible">
+        <!-- Text Box -->
+        <input type="text" name="{{td.Name}}" id="txt{{td.Name}}" ng-change="inputControlChange(td.Name,item[td.Name],item)" ng-model="item[td.Name]" class="form-control w100p p-3" ng-if="td.inputControl=='text'" ng-class="{'disabled':td.inputControlOptions.isDisabled,'mand':td.inputControlOptions.validationType==='required'}" ng-disabled="td.inputControlOptions.isDisabled" ng-blur="checkFieldValidation($event,td.inputControlOptions.validationType,item)" maxlength="{{td.inputControlOptions.maxlength}}" placeholder="{{td.Name}}" />
+        <input type="text" z-decimal name="{{td.Name}}" id="txt{{td.Name}}" ng-change="inputControlChange(td.Name,item[td.Name],item)" ng-model="item[td.Name]" class="form-control w100p p-3" ng-if="td.inputControl=='decimal'" ng-class="{'disabled':td.inputControlOptions.isDisabled,'mand':td.inputControlOptions.validationType==='required'}" ng-disabled="td.inputControlOptions.isDisabled" ng-blur="checkFieldValidation($event,td.inputControlOptions.validationType,item)" maxlength="{{td.inputControlOptions.maxlength}}" placeholder="{{td.Name}}" />
+
+        <!-- Button -->
+        <input type="button" name="{{td.Name}}" id="btn{{td.Name}}" class="form-control" ng-if="td.inputControl=='button'" />
+        <!-- DropDown -->
+        <select ng-model="item[td.Name]" ng-if="td.inputControl=='select'" name="{{td.Name}}" id="ddl{{td.Name}}" class="form-control" ng-options="ddl.{{td.inputControlOptions.valueProperty}} as ddl.{{td.inputControlOptions.textProperty}} for ddl in td.inputControlOptions.data" ng-change="inputControlChange(td.Name,item[td.Name],item,true,td)" ng-class="{'disabled':td.inputControlOptions.isDisabled,'mand':td.inputControlOptions.validationType==='required'}" ng-disabled="td.inputControlOptions.isDisabled">
+            <option value="">Select Option</option>
+        </select>
+        <!-- Auto Complete -->
+        <input type="text" name="{{td.Name}}" id="autcml{{td.Name}}" kendo-auto-complete
+               k-data-text-field="td.inputControlOptions.valueProperty"
+               k-data-source="td.inputControlOptions.data"
+               k-options="autoCompleteOptions"
+               ng-if="td.inputControl=='autocomplete'" ng-model="item[td.Name]" ng-change="inputControlChange(td.Name,item[td.Name],item)" ng-class="{'disabled':td.inputControlOptions.isDisabled,'mand':td.inputControlOptions.validationType==='required'}" ng-disabled="td.inputControlOptions.isDisabled" />
+
+        <!-- Check Box -->
+        <div class="checkbox text-center" ng-if="td.inputControl=='checkbox'">
+            <input type="checkbox" name="{{td.Name}}" id="chk{{td.Name}}" ng-model="item[td.Name]" ng-change="inputControlChange(td.Name,item[td.Name],item)" ng-class="{'disabled':td.inputControlOptions.isDisabled}" ng-disabled="td.inputControlOptions.isDisabled" />
+            <label></label>
+        </div>
+    </td>
+    <td class="text-right w60" ng-if="!isView&&isshowaction">
+        <span class="smart-grid-actions mt-10">
+            <span class="tool-icons edit-icon" tooltip-placement="top" uib-tooltip="Edit"></span>
+            <span class="tool-icons delete-icon" tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteItem($index)"></span>
+        </span>
+    </td>
+    <!--<td ng-if="!isView&&isshowaction">
+        <button type="button" ng-click="deleteItem($index)" class="mui-btn btn-sm btn-danger mt-0 text-white pl-15 pr-15">
+            <i class="fa fa-times">
+            </i>
+        </button>
+    </td>-->
+</script>
+
+<script id="colsftvalue" type="text/ng-template">
+    {{columnsTotal[td.Name]}}
+</script>
+
+<script id="colsftempty" type="text/ng-template">
+    <label ng-if="$index===0&&footerTitle"><strong>{{footerTitle}}:</strong></label>
+    <label ng-if="$index===0&&!footerTitle"><strong>Totals:</strong> </label>
+    <label ng-if="$index!=0"></label>
+</script>
+
